@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillExchange.Data", "SkillExchange.Data", "{9CEBBD90-22E4-4E5E-AC69-4D49DE0FD538}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillExchange.Models", "SkillExchange.Models", "{9C2D6872-768D-4EC9-B454-74217EE0CCAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillExchange.Tests", "SkillExchange.Tests", "{5AFB521E-7663-425D-83F8-53B7B4DBA87F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillExchange.Web", "SkillExchange.Web", "{2F10AFB7-E49C-4507-B4C6-D71504A9E8B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillExchange.Models", "SkillExchange.Models\SkillExchange.Models.csproj", "{64FEEF7D-AFE7-465D-B91D-A614D408E977}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillExchange.Data", "SkillExchange.Data\SkillExchange.Data.csproj", "{8B1632C5-5C7E-4E2F-9939-96BAFF800A78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillExchange.Web", "SkillExchange.Web\SkillExchange.Web.csproj", "{0F2B4497-4BAB-449F-9022-EFA8EFB6BCD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillExchange.Tests", "SkillExchange.Tests\SkillExchange.Tests.csproj", "{EA73DDD9-F0B5-45A1-922F-7C939F92C0AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64FEEF7D-AFE7-465D-B91D-A614D408E977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FEEF7D-AFE7-465D-B91D-A614D408E977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FEEF7D-AFE7-465D-B91D-A614D408E977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FEEF7D-AFE7-465D-B91D-A614D408E977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B1632C5-5C7E-4E2F-9939-96BAFF800A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B1632C5-5C7E-4E2F-9939-96BAFF800A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B1632C5-5C7E-4E2F-9939-96BAFF800A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B1632C5-5C7E-4E2F-9939-96BAFF800A78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2B4497-4BAB-449F-9022-EFA8EFB6BCD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2B4497-4BAB-449F-9022-EFA8EFB6BCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2B4497-4BAB-449F-9022-EFA8EFB6BCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2B4497-4BAB-449F-9022-EFA8EFB6BCD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA73DDD9-F0B5-45A1-922F-7C939F92C0AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA73DDD9-F0B5-45A1-922F-7C939F92C0AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA73DDD9-F0B5-45A1-922F-7C939F92C0AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA73DDD9-F0B5-45A1-922F-7C939F92C0AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64FEEF7D-AFE7-465D-B91D-A614D408E977} = {9C2D6872-768D-4EC9-B454-74217EE0CCAB}
+		{8B1632C5-5C7E-4E2F-9939-96BAFF800A78} = {9CEBBD90-22E4-4E5E-AC69-4D49DE0FD538}
+		{0F2B4497-4BAB-449F-9022-EFA8EFB6BCD9} = {2F10AFB7-E49C-4507-B4C6-D71504A9E8B2}
+		{EA73DDD9-F0B5-45A1-922F-7C939F92C0AE} = {5AFB521E-7663-425D-83F8-53B7B4DBA87F}
+	EndGlobalSection
+EndGlobal
