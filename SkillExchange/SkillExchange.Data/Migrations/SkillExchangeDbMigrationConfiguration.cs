@@ -23,6 +23,10 @@
             {
                 this.CreateUsers(context);
                 this.AddAdminUser(context);
+                this.CreateSkillCategories(context);
+                this.CreateExchangeTypes(context);
+                this.CreateSkills(context);
+                this.CreateTowns(context);
             }
         }
 
@@ -38,7 +42,7 @@
                     },
                     new UserData
                     {
-                        Username = "maria",
+                        Username = "m.deneva",
                         FirstName = "Maria",
                         LastName = "Deneva"
                     },
@@ -103,6 +107,108 @@
             }
         }
 
+        private void CreateSkillCategories(SkillExchangeDbContext context)
+        {
+            context.SkillCategories.AddOrUpdate(
+                new SkillCategory
+                {
+                    Name = "Art and Design"
+                },
+                new SkillCategory
+                {
+                    Name = "Services"
+                },
+                new SkillCategory
+                {
+                    Name = "Computers"
+                },
+                new SkillCategory
+                {
+                    Name = "Cooking"
+                }, new SkillCategory
+                {
+                    Name = "Languages"
+                });
+
+            context.SaveChanges();
+        }
+
+        private void CreateExchangeTypes(SkillExchangeDbContext context)
+        {
+            context.ExchangeTypes.AddOrUpdate(
+                new ExchangeType
+                {
+                    Name = "Offering"
+                },
+                new ExchangeType
+                {
+                    Name = "Seeking"
+                });
+        }
+
+        private void CreateSkills(SkillExchangeDbContext context)
+        {
+            context.Skills.AddOrUpdate(
+                new Skill
+                {
+                    Name = "gardening",
+                    Category = context.SkillCategories.First(c => c.Name == "Services")
+                },
+                new Skill
+                {
+                    Name = "photoshop",
+                    Category = context.SkillCategories.First(c => c.Name == "Computers")
+                },
+                new Skill
+                {
+                    Name = "french",
+                    Category = context.SkillCategories.First(c => c.Name == "Languages")
+                },
+                new Skill
+                {
+                    Name = "soup",
+                    Category = context.SkillCategories.First(c => c.Name == "cooking")
+                },
+                new Skill
+                {
+                    Name = "quilling",
+                    Category = context.SkillCategories.First(c => c.Name == "Art and Design")
+                });
+
+            context.SaveChanges();
+        }
+
+        private void CreateTowns(SkillExchangeDbContext context)
+        {
+            context.Towns.AddOrUpdate(
+                new Town
+                {
+                    Name = "Sofia"
+                },
+                new Town
+                {
+                    Name = "Stara Zagora"
+                },
+                new Town
+                {
+                    Name = "Plovdiv"
+                },
+                new Town
+                {
+                    Name = "Varna"
+                },
+                new Town
+                {
+                    Name = "Pleven"
+                },
+                new Town
+                {
+                    Name = "Vidin"
+                });
+
+            context.SaveChanges();
+        } 
+ 
         private void AddAdminUser(SkillExchangeDbContext context)
         {
             var adminExists = context.Users.FirstOrDefault(u => u.UserName == "admin") != null;
@@ -123,7 +229,8 @@
                 var admin = new User
                 {
                     FirstName = "Admin",
-                    UserName = "admin",
+                    LastName = "Admin",
+                    UserName = "administrator",
                     Email = "admin@abv.bg"
                 };
 
@@ -143,7 +250,7 @@
                 }
 
                 // Add admin user to "Administrator" role
-                var adminUser = context.Users.First(user => user.UserName == "admin");
+                var adminUser = context.Users.First(user => user.UserName == "administrator");
                 var addAdminRoleResult = userManager.AddToRole(adminUser.Id, "Administrator");
                 if (!addAdminRoleResult.Succeeded)
                 {
