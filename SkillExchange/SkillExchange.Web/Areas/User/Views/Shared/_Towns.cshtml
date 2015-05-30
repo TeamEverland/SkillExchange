@@ -1,3 +1,14 @@
-﻿@model IEnumerable<SkillExchange.Models.Town>
+﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.TownViewModel>
 
 
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var town in Model)
+        {
+            <li>
+                <a>@town.Name </a><span class="badge">@town.UserSkillsCount</span>
+            </li>
+        }
+    </ul>
+}

@@ -1,5 +1,6 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
+    using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
     using Data.Data;
@@ -22,21 +23,52 @@
             return this.View();
         }
 
+        [ChildActionOnly]
         public PartialViewResult Categories()
         {
-            var userSkillsIds = this.Data.UserSkills
+            var userSkillsInCategory = this.Data.UserSkills
                 .All()
+                .Include(us => us.Skill)
                 .DistinctBy(us => us.SkillId)
-                .Select(us => us.SkillId).ToList();
-            var skillsCatagoriesWithUsers =
-                this.Data.Skills.All().Where(s => userSkillsIds.Contains(s.Id)).Select(s => s.CategoryId);
+                .Select(us => new {us.Skill.CategoryId, us.SkillId})
+                .GroupBy(us => us.CategoryId)
+                .ToDictionary(g => g.Key, g => g.Count());
 
-            return this.PartialView("_Categories");
+            var categories = this.Data.SkillCategories
+                .All()
+                .Select(c => new CategoriesViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                }).ToList();
+
+            categories.ForEach(x => x.UserSkillsCount = userSkillsInCategory.ContainsKey(x.Id) ? userSkillsInCategory[x.Id] : 0);
+
+            return this.PartialView("_Categories", categories);
         }
 
+        [ChildActionOnly]
         public PartialViewResult Towns()
         {
-            return this.PartialView("_Towns");
+            var userSkillsInTown = this.Data.UserSkills
+                .All()
+                .Include(us => us.User)
+                .DistinctBy(us => us.User.TownId)
+                .Select(us => new { us.User.TownId, us.SkillId })
+                .GroupBy(us => us.TownId)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var towns = this.Data.SkillCategories
+                .All()
+                .Select(c => new TownViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                }).ToList();
+
+            towns.ForEach(x => x.UserSkillsCount = userSkillsInTown.ContainsKey(x.Id) ? userSkillsInTown[x.Id] : 0);
+
+            return this.PartialView("_Towns", towns);
         }
     }
 }
