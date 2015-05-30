@@ -1,6 +1,5 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
-    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
@@ -50,7 +49,7 @@
             }
 
             var users = query
-                .Select(u => new UserProfileViewModel
+                .Select(u => new UserProfileSummaryViewModel
                 {
                     Username = u.UserName,
                     Offering = u.Skills

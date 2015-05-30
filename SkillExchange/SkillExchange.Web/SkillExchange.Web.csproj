@@ -181,8 +181,10 @@
     <Compile Include="Areas\User\Models\CategoriesPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
+    <Compile Include="Areas\User\Models\OfferingSkillViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
-    <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserProfileFullViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserProfileSummaryViewModel.cs" />
     <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -214,8 +216,9 @@
     <Content Include="Areas\User\Views\Notifications\Index.cshtml" />
     <Content Include="Areas\User\Views\Profile\Index.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Categories.cshtml" />
-    <Content Include="Areas\User\Views\Shared\DisplayTemplates\UserProfileViewModel.cshtml" />
+    <Content Include="Areas\User\Views\Shared\DisplayTemplates\UserProfileSummaryViewModel.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Towns.cshtml" />
+    <Content Include="Areas\User\Views\Profile\Show.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

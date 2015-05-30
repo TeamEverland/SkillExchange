@@ -1,10 +1,16 @@
-﻿@model SkillExchange.Web.Areas.User.Models.UserProfileViewModel
+﻿@model SkillExchange.Web.Areas.User.Models.UserProfileSummaryViewModel
 
 
 <div class="panel panel-warning">
     <div class="panel-heading">
         <h3 class="panel-title text-center">
-            <a>@Model.Username</a>
+            @Html.ActionLink(
+                Model.Username,
+                "Show",
+                new
+                {
+                    area = "User", controller = "Profile", username = Model.Username
+                })
         </h3>
     </div>
     <div class="panel-body">

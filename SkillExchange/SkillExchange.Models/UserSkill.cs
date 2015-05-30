@@ -1,5 +1,6 @@
 ﻿namespace SkillExchange.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,7 @@
         public int ExchangeTypeId { get; set; }
 
         public virtual ExchangeType ExchangeType { get; set; }
+
+        public virtual ICollection<Approver> Approvers { get; set; } 
     }
 }

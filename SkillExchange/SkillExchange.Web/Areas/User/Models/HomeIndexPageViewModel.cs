@@ -8,6 +8,6 @@
 
         public int? SelectedTownId { get; set; }
 
-        public IEnumerable<UserProfileViewModel> Users { get; set; }
+        public IEnumerable<UserProfileSummaryViewModel> Users { get; set; }
     }
 }

@@ -1,0 +1,16 @@
+﻿@model SkillExchange.Web.Areas.User.Models.UserProfileFullViewModel
+
+<main>
+    @if (Model != null)
+    {
+        <div class="page-header">
+            <h2 class="text-center">@Model.FirstName @Model.LastName's profile</h2>
+        </div>
+    }
+    else
+    {
+        <div>Sorry, profile requested does not exist</div>
+    }
+</main>
+
+
