@@ -1,0 +1,28 @@
+﻿@model SkillExchange.Web.Areas.User.Models.UserProfileViewModel
+
+
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Model.Username</h3>
+    </div>
+    <div class="panel-body">
+        @if (Model.Offering.Any())
+        {
+            <span class="text-primary">Offering: </span>
+            foreach (var skill in Model.Offering)
+            {
+                <span><a>@skill.Name</a></span>
+            }
+        }
+
+        @if (Model.Seeking.Any())
+        {
+            <span class="text-primary">Seeking: </span>
+            foreach (var skill in Model.Seeking)
+            {
+                <span><a>@skill.Name</a></span>
+            }
+        }
+    </div>
+</div>
+

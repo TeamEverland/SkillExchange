@@ -24,5 +24,7 @@
 
         [Required]
         public int ExchangeTypeId { get; set; }
+
+        public virtual ExchangeType ExchangeType { get; set; }
     }
 }

@@ -3,12 +3,16 @@
 
 @if (Model.Any())
 {
-    <ul>
+    <div class="list-group col-lg-2">
+        <div class="list-group-item active">
+            Towns
+        </div>
         @foreach (var town in Model)
         {
-            <li>
-                <a>@town.Name </a><span class="badge">@town.UserSkillsCount</span>
-            </li>
+            <div class="list-group-item">
+                <a href="#">@town.Name </a>
+                <span class="badge">@town.UserSkillsCount</span>
+            </div>
         }
-    </ul>
+    </div>
 }

@@ -4,19 +4,19 @@
 }
 
 
-<aside>
+<aside class="col-lg-2">
     @Html.Action("Categories")
 </aside>
-<aside>
+<aside class="col-lg-2">
     @*@Html.Action("Towns")*@
 </aside>
-<section>
-    <div>
-        <p>Most active users</p>
+<section class="col-lg-8 col-lg-offset-1">
+    <div class="page-header text-center no-top-margin">
+        <h2 class="text-primary no-top-margin">Most active users</h2>
     </div>
-    @*@foreach (var user in Model)
+    @foreach (var user in Model)
     {
-        @Html.DisplayFor(u => user)
-    }*@
+        <div class="col-lg-4">@Html.DisplayFor(u => user)</div>
+    }
 </section>
 

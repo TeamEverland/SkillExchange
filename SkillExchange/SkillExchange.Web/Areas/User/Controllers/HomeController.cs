@@ -20,7 +20,21 @@
         [HttpGet]
         public ActionResult Index()
         {
-            return this.View();
+            var users = this.Data.Users
+                .All()
+                .Select(u => new UserProfileViewModel
+                {
+                    Username = u.UserName,
+                    Offering = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Offering")
+                        .Select(s => new UserSkillViewModel{ Id = s.SkillId, Name = s.Skill.Name}),
+                    Seeking = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Seeking")
+                        .Select(s => new UserSkillViewModel{Id = s.Id, Name = s.Skill.Name})
+                })
+                .ToList();
+
+            return this.View(users);
         }
 
         [ChildActionOnly]

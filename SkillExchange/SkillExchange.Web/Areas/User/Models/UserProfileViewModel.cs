@@ -8,9 +8,9 @@
 
         public string Town { get; set; }
 
-        public ICollection<UserSkillViewModel> Offering { get; set; }
+        public IEnumerable<UserSkillViewModel> Offering { get; set; }
 
-        public ICollection<UserSkillViewModel> Seeking { get; set; }
+        public IEnumerable<UserSkillViewModel> Seeking { get; set; }
 
         public string Description { get; set; }
     }

@@ -212,7 +212,7 @@
     <Content Include="Areas\User\Views\Notifications\Index.cshtml" />
     <Content Include="Areas\User\Views\Profile\Index.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Categories.cshtml" />
-    <Content Include="Areas\User\Views\Shared\DisplayTemplates\UserProfile.cshtml" />
+    <Content Include="Areas\User\Views\Shared\DisplayTemplates\UserProfileViewModel.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Towns.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -267,7 +267,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SkillExchange.Data\SkillExchange.Data.csproj">
