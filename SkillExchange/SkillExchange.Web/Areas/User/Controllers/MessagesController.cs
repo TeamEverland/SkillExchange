@@ -4,9 +4,9 @@
     using Data.Data;
     using Web.Controllers;
 
-    public class Messages : BaseController
+    public class MessagesController : BaseController
     {
-        public Messages(ISkillExchangeData data) : base(data)
+        public MessagesController(ISkillExchangeData data) : base(data)
         {  
         }
 

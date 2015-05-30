@@ -4,6 +4,7 @@
     using Data.Data;
     using Web.Controllers;
 
+    [Authorize]
     public class HomeController : BaseController
     {
         public HomeController(ISkillExchangeData data)
@@ -12,11 +13,15 @@
         }
 
         // GET: User/Home/Index
-        [Authorize]
         [HttpGet]
         public ActionResult Index()
         {
             return this.View();
+        }
+
+        public PartialViewResult Categories()
+        {
+            return this.PartialView("_Categories");
         }
     }
 }

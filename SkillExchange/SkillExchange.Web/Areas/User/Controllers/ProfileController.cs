@@ -4,9 +4,9 @@
     using Data.Data;
     using Web.Controllers;
 
-    public class Profile : BaseController
+    public class ProfileController : BaseController
     {
-        public Profile(ISkillExchangeData data)
+        public ProfileController(ISkillExchangeData data)
             : base(data)
         {
         }

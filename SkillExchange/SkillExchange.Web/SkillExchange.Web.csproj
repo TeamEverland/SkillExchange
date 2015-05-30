@@ -175,9 +175,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\User\Controllers\HomeController.cs" />
-    <Compile Include="Areas\User\Controllers\Messages.cs" />
-    <Compile Include="Areas\User\Controllers\NontificationsController.cs" />
-    <Compile Include="Areas\User\Controllers\Profile.cs" />
+    <Compile Include="Areas\User\Controllers\MessagesController.cs" />
+    <Compile Include="Areas\User\Controllers\NotificationsController.cs" />
+    <Compile Include="Areas\User\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\User\Models\CategoriesViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -206,6 +209,7 @@
     <Content Include="Areas\User\Views\Messages\Index.cshtml" />
     <Content Include="Areas\User\Views\Notifications\Index.cshtml" />
     <Content Include="Areas\User\Views\Profile\Index.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_Categories.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -253,7 +257,6 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\User\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

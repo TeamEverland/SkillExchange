@@ -11,20 +11,30 @@
 
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Administrator"))
+                {
+                    return RedirectToAction("Index", new { Area = "Admin", Controller = "Home" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { Area = "User", Controller = "Home" });
+                }
+            }
+
+            return this.View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
