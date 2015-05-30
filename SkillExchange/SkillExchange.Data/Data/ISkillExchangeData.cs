@@ -1,5 +1,6 @@
 ﻿namespace SkillExchange.Data.Data
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using Repositories;
 
@@ -21,7 +22,9 @@
 
         IRepository<Notification> Notifications { get; }
 
-        IRepository<Skill> Skills { get; } 
+        IRepository<Skill> Skills { get; }
+
+        IRepository<IdentityRole> Roles { get; } 
 
         int SaveChanges();
     }

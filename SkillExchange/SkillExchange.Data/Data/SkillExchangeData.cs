@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Context;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using Repositories;
 
@@ -61,6 +62,11 @@
         public IRepository<Skill> Skills
         {
             get { return this.GetRepository<Skill>(); }
+        }
+
+        public IRepository<IdentityRole> Roles
+        {
+            get { return this.GetRepository<IdentityRole>(); }
         }
 
         public int SaveChanges()

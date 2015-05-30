@@ -20,8 +20,12 @@
         [HttpGet]
         public ActionResult Index()
         {
+            var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
+            var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
+
             var users = this.Data.Users
                 .All()
+                .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId))
                 .Select(u => new UserProfileViewModel
                 {
                     Username = u.UserName,

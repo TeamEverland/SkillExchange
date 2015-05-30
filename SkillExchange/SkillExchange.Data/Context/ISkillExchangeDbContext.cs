@@ -1,6 +1,7 @@
 ﻿namespace SkillExchange.Data.Context
 {
     using System.Data.Entity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
 
     public interface ISkillExchangeDbContext
@@ -22,6 +23,8 @@
         IDbSet<Notification> Notifications { get; }
 
         IDbSet<Skill> Skills { get; }
+
+        IDbSet<IdentityRole> Roles { get; } 
 
         int SaveChanges();
     }
