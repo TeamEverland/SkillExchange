@@ -6,6 +6,7 @@
     public class UserSkill
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(Order = 1)]
         public int Id { get; set; }
 

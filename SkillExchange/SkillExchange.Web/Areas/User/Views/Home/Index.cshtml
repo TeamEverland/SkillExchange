@@ -1,7 +1,22 @@
-﻿
+﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.UserProfileViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Home";
 }
 
-<h2>Index</h2>
+
+<aside>
+    @Html.Action("Categories")
+</aside>
+<aside>
+    @*@Html.Action("Towns")*@
+</aside>
+<section>
+    <div>
+        <p>Most active users</p>
+    </div>
+    @*@foreach (var user in Model)
+    {
+        @Html.DisplayFor(u => user)
+    }*@
+</section>
 

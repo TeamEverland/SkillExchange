@@ -179,6 +179,7 @@
     <Compile Include="Areas\User\Controllers\NotificationsController.cs" />
     <Compile Include="Areas\User\Controllers\ProfileController.cs" />
     <Compile Include="Areas\User\Models\CategoriesViewModel.cs" />
+    <Compile Include="Areas\User\Models\TownViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
@@ -210,6 +211,8 @@
     <Content Include="Areas\User\Views\Notifications\Index.cshtml" />
     <Content Include="Areas\User\Views\Profile\Index.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Categories.cshtml" />
+    <Content Include="Areas\User\Views\Shared\DisplayTemplates\UserProfile.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_Towns.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -27,6 +27,7 @@
                 this.CreateExchangeTypes(context);
                 this.CreateSkills(context);
                 this.CreateTowns(context);
+                this.CreateUserSkills(context);
             }
         }
 
@@ -207,7 +208,44 @@
                 });
 
             context.SaveChanges();
-        } 
+        }
+
+        private void CreateUserSkills(ISkillExchangeDbContext context)
+        {
+            context.UserSkills.AddOrUpdate(
+                new UserSkill
+                {
+                    UserId = context.Users.First(u => u.UserName == "katherina").Id,
+                    SkillId = context.Skills.First(s => s.Name == "gardening").Id,
+                    ExchangeTypeId = 1
+                },
+                new UserSkill
+                {
+                    UserId = context.Users.First(u => u.UserName == "nikola").Id,
+                    SkillId = context.Skills.First(s => s.Name == "photoshop").Id,
+                    ExchangeTypeId = 1
+                },
+                new UserSkill
+                {
+                    UserId = context.Users.First(u => u.UserName == "nikola").Id,
+                    SkillId = context.Skills.First(s => s.Name == "french").Id,
+                    ExchangeTypeId = 1
+                },
+                new UserSkill
+                {
+                    UserId = context.Users.First(u => u.UserName == "iliana").Id,
+                    SkillId = context.Skills.First(s => s.Name == "quilling").Id,
+                    ExchangeTypeId = 2
+                },
+                new UserSkill
+                {
+                    UserId = context.Users.First(u => u.UserName == "iliana").Id,
+                    SkillId = context.Skills.First(s => s.Name == "photoshop").Id,
+                    ExchangeTypeId = 2
+                });
+
+            context.SaveChanges();
+        }
  
         private void AddAdminUser(SkillExchangeDbContext context)
         {

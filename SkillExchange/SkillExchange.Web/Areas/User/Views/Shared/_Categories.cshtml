@@ -1,4 +1,13 @@
 ﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.CategoriesViewModel>
 
-
-
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var category in Model)
+        {
+            <li>
+                <a>@category.Name </a><span class="badge">@category.UserSkillsCount</span>
+            </li>
+        }
+    </ul>
+}
