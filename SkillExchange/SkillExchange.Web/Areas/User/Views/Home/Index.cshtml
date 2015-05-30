@@ -1,11 +1,13 @@
-﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.UserProfileViewModel>
+﻿@model SkillExchange.Web.Areas.User.Models.HomeIndexPageViewModel
 @{
     ViewBag.Title = "Home";
 }
 
 
 <aside class="col-lg-2">
-    @Html.Action("Categories")
+    @Html.Action(
+        "Categories",
+        new{categoryId = Model.SelectedCategoryId, townId = Model.SelectedTownId})
 </aside>
 <aside class="col-lg-2">
     @*@Html.Action("Towns")*@
@@ -14,7 +16,7 @@
     <div class="page-header text-center no-top-margin">
         <h2 class="text-primary no-top-margin">Most active users</h2>
     </div>
-    @foreach (var user in Model)
+    @foreach (var user in Model.Users)
     {
         <div class="col-lg-4">@Html.DisplayFor(u => user)</div>
     }

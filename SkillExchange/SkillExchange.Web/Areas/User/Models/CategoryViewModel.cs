@@ -1,6 +1,6 @@
 ﻿namespace SkillExchange.Web.Areas.User.Models
 {
-    public class CategoriesViewModel
+    public class CategoryViewModel
     {
         public int Id { get; set; }
 

@@ -1,18 +1,23 @@
-﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.CategoriesViewModel>
+﻿@model SkillExchange.Web.Areas.User.Models.CategoriesPartialViewModel
 
-@if (Model.Any())
+@if (Model.Categories.Any())
 {
     <div class="list-group">
         <div class="list-group-item active">
             Categories
         </div>
-        <div class="list-group-item">
-            <a href="#">All</a>
+        <div class="list-group-item @(Model.SelectedCategoryId == null ? "btn btn-default" : "")">
+            @Html.ActionLink("All", "Index", new { area = "User", controller = "Home" })
         </div>
-        @foreach (var category in Model)
+        @foreach (var category in Model.Categories)
         {
-            <div class="list-group-item">
-                <a href="#">@category.Name </a>
+            <div class="list-group-item @(Model.SelectedCategoryId == category.Id ? "btn btn-default" : "")">
+                @Html.ActionLink(category.Name, "Index", new
+                    {
+                        area = "User",
+                        controller = "Home",
+                        categoryId = category.Id
+                    })
                 <span class="badge">@category.UserSkillsCount</span>
             </div>
         }

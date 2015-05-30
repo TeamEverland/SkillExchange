@@ -178,7 +178,9 @@
     <Compile Include="Areas\User\Controllers\MessagesController.cs" />
     <Compile Include="Areas\User\Controllers\NotificationsController.cs" />
     <Compile Include="Areas\User\Controllers\ProfileController.cs" />
-    <Compile Include="Areas\User\Models\CategoriesViewModel.cs" />
+    <Compile Include="Areas\User\Models\CategoriesPartialViewModel.cs" />
+    <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
+    <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />

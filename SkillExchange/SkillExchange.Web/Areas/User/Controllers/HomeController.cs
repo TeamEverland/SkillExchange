@@ -1,11 +1,13 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
     using Data.Data;
     using Microsoft.Ajax.Utilities;
     using Models;
+    using SkillExchange.Models;
     using Web.Controllers;
 
     [Authorize]
@@ -18,31 +20,60 @@
 
         // GET: User/Home/Index
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int? categoryId, int? townId)
         {
-            var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
-            var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
+            IQueryable<User> query;
 
-            var users = this.Data.Users
-                .All()
-                .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId))
+            if (categoryId == null && townId == null)
+            {
+                var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
+                var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
+
+                query = this.Data.Users
+                    .All()
+                    .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId));
+            }
+            else
+            {
+                query = this.Data.Users
+                    .All();
+
+                if (categoryId != null)
+                {
+                    query = query.Where(u => u.Skills.Select(s => s.Skill.CategoryId).Contains(categoryId.Value));
+                }
+
+                if (townId != null)
+                {
+                    query = query.Where(u => u.TownId == townId);
+                }
+            }
+
+            var users = query
                 .Select(u => new UserProfileViewModel
                 {
                     Username = u.UserName,
                     Offering = u.Skills
                         .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserSkillViewModel{ Id = s.SkillId, Name = s.Skill.Name}),
+                        .Select(s => new UserSkillViewModel { Id = s.SkillId, Name = s.Skill.Name }),
                     Seeking = u.Skills
                         .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSkillViewModel{Id = s.Id, Name = s.Skill.Name})
+                        .Select(s => new UserSkillViewModel { Id = s.Id, Name = s.Skill.Name })
                 })
                 .ToList();
 
-            return this.View(users);
+            var viewModel = new HomeIndexPageViewModel
+            {
+                SelectedCategoryId = categoryId,
+                SelectedTownId = townId,
+                Users = users
+            };
+
+            return this.View(viewModel);
         }
 
         [ChildActionOnly]
-        public PartialViewResult Categories()
+        public PartialViewResult Categories(int? categoryId)
         {
             var userSkillsInCategory = this.Data.UserSkills
                 .All()
@@ -54,7 +85,7 @@
 
             var categories = this.Data.SkillCategories
                 .All()
-                .Select(c => new CategoriesViewModel
+                .Select(c => new CategoryViewModel
                 {
                     Id = c.Id,
                     Name = c.Name,
@@ -62,7 +93,13 @@
 
             categories.ForEach(x => x.UserSkillsCount = userSkillsInCategory.ContainsKey(x.Id) ? userSkillsInCategory[x.Id] : 0);
 
-            return this.PartialView("_Categories", categories);
+            var viewModel = new CategoriesPartialViewModel
+            {
+                SelectedCategoryId = categoryId,
+                Categories = categories
+            };
+
+            return this.PartialView("_Categories", viewModel);
         }
 
         [ChildActionOnly]
