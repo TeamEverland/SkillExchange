@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace SkillExchange.Web.Areas.User
+﻿namespace SkillExchange.Web.Areas.User
 {
+    using System.Web.Mvc;
+
     public class UserAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
