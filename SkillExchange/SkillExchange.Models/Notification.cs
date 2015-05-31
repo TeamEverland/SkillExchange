@@ -1,5 +1,6 @@
 ﻿namespace SkillExchange.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class Notification
@@ -7,6 +8,7 @@
         public Notification()
         {
             this.IsRead = false;
+            this.Date = DateTime.Now;
         }
 
         [Key]
@@ -14,6 +16,9 @@
 
         [Required]
         public string Content { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
 
         [Required]
         public string RecieverId { get; set; }

@@ -187,6 +187,7 @@
     <Compile Include="Areas\User\Models\CategoriesPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
+    <Compile Include="Areas\User\Models\NotificationViewModel.cs" />
     <Compile Include="Areas\User\Models\OfferingSkillViewModel.cs" />
     <Compile Include="Areas\User\Models\TownsPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />

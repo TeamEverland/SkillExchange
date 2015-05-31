@@ -23,9 +23,9 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", new { area = "User", controller = "Home" })</li>
                     <li>@Html.ActionLink("Search", "Search", new { area = "User", controller = "Home" })</li>
-                    <li>@Html.ActionLink("Messages", "Index",new { area = "User", controller = "Messages" })</li>
+                    <li>@Html.ActionLink("Messages", "Index", new { area = "User", controller = "Messages" })</li>
                     <li>@Html.ActionLink("Notifications", "Index", new { area = "User", controller = "Notifications" })</li>
-                    <li>@Html.ActionLink("Profile", "Index", new { area = "User", controller =  "Profile" })</li>
+                    <li>@Html.ActionLink("Profile", "Index", new { area = "User", controller = "Profile" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -33,9 +33,6 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <footer class="modal-footer">
-            <p class="text-center">&copy; @DateTime.Now.Year - SkillExchange</p>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

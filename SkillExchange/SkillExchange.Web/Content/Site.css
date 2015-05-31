@@ -25,11 +25,11 @@ textarea {
 }
 
 /*User area css*/
-.no-top-margin {
-    margin-top: 0
-}
-
 .no-padding {
     padding: 0
+}
+
+.unread-notification {
+    background: rgb(218, 137, 38)
 }
 /*User area css*/
