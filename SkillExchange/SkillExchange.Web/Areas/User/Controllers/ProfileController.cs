@@ -3,13 +3,13 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
-    using System.Transactions;
     using System.Web.Mvc;
     using Common;
     using Data.Data;
     using Models;
     using SkillExchange.Models;
     using Web.Controllers;
+    using WebGrease.Css.Extensions;
 
     public class ProfileController : BaseController
     {
@@ -26,6 +26,7 @@
             return this.View();
         }
 
+        // GET: User/Profile/Show
         [Authorize]
         [HttpGet]
         public ActionResult Show(string username)
@@ -62,7 +63,6 @@
                             Id = s.Id,
                             SkillId = s.SkillId,
                             Name = s.Skill.Name,
-                            ApproversCount = s.Approvers.Count,
                             CanBeApprovedByCurrentUserLogged = !approvedSkillsByCurrentUserLogged.Contains(s.Id)
                         }),
                     Seeking = u.Skills
@@ -75,11 +75,30 @@
                 })
                 .FirstOrDefault();
 
-            viewModel.UserProfile = userProfile;
+            if (userProfile != null)
+            {
+                userProfile.Offering.ForEach(s => s.ApproversCount =
+                this.Data.Approvers.All().Count(a => a.UserSkillId == s.Id));
 
-            return this.View(viewModel);
+                viewModel.UserProfile = userProfile;
+
+                return this.View(viewModel);
+            }
+
+            TempData["message"] = new NotitficationMessage
+            {
+                Content = ErrorMessages.RequestedNotExistingUserPprofileMessage,
+                Type = NotificationMessageType.Error
+            };
+
+            return this.RedirectToAction("Error", "Home", new {area = "User"});
+
         }
 
+        // POST: User/Profile/Approve
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Approve(int skillId)
         {
             var userOwner = this.Data.UserSkills
@@ -169,11 +188,11 @@
             {
                 TempData["message"] = new NotitficationMessage
                 {
-                    Content = ErrorMessages.AttemptToApproveOwnSkillMessage,
+                    Content = ErrorMessages.RequestedNotExistingUserSkillMessage,
                     Type = NotificationMessageType.Error
                 };
 
-                return this.RedirectToAction("Error", "Home", new { area = "" });
+                return this.RedirectToAction("Error", "Home", new { area = "User" });
             }
         }
     }

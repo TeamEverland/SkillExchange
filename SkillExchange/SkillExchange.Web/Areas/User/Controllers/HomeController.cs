@@ -130,5 +130,19 @@
 
             return this.PartialView("_Towns", viewModel);
         }
+
+        [HttpGet]
+        public ActionResult Error()
+        {
+           
+            if (TempData["message"] != null)
+            {
+                var message = (NotitficationMessage)TempData["message"];
+
+                return this.View(message);
+            }
+
+            return this.RedirectToAction("Index", "Home", new { area = "User" });
+        }
     }
 }

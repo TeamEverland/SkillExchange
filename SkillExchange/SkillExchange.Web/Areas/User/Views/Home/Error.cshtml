@@ -1,0 +1,14 @@
+﻿@using SkillExchange.Web.Areas.User.Models
+@model  NotitficationMessage
+
+<main>
+    <div>
+        @if (Model.Type == NotificationMessageType.Error)
+        {
+            <h1 class="text-danger text-center">
+                @Model.Content
+            </h1>
+        }
+    </div>
+</main>
+

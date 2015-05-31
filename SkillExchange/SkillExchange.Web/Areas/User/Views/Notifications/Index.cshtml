@@ -4,10 +4,10 @@
 <main class="col-lg-6 col-lg-offset-3">
     @if (Model.Any())
     {
-
-            foreach (var notification in Model)
+        <ul class="list-group">
+            @foreach (var notification in Model)
             {
-                <div class="list-group-item text-center @(!notification.IsRead ? "unread-notification" : "read-notification")">
+                <li class="list-group-item text-center @(!notification.IsRead ? "unread-notification" : "read-notification")">
                     @Html.Raw(@notification.Content)
                     @if (!notification.IsRead)
                     {
@@ -23,8 +23,9 @@
                             }
                         </div>
                     }
-                </div>
+                </li>
             }
+        </ul>
     }
     else
     {

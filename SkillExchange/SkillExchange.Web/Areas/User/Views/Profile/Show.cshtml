@@ -1,5 +1,5 @@
 ﻿@using SkillExchange.Web.Areas.User.Models
-@model SkillExchange.Web.Areas.User.Models.UserProfileViewModel
+@model UserProfileViewModel
 
 <main class="col-lg-10 col-lg-offset-1">
     @if (Model.Message != null)
@@ -20,112 +20,110 @@
             </div>
         }
     }
-    
-    @if (Model.UserProfile != null)
-    {
-        <div class="page-header no-top-margin">
-            <h3 class="text-center text-warning">@Model.UserProfile.FirstName @Model.UserProfile.LastName's profile</h3>
+
+    <div class="page-header no-top-margin">
+        <h3 class="text-center text-warning">@Model.UserProfile.FirstName @Model.UserProfile.LastName's profile</h3>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#personal-info" data-toggle="tab" aria-expanded="true" class="text-warning">About</a></li>
+        <li><a href="#offering" data-toggle="tab" aria-expanded="false" class="text-warning">I offer you...</a></li>
+        <li><a href="#seeking" data-toggle="tab" aria-expanded="false" class="text-warning">I'm currently looking for...</a></li>
+        <li><a href="#message" data-toggle="tab" aria-expanded="false" class="text-warning">Send me a message</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content col-lg-10 col-lg-offset-1">
+        <div class="tab-pane fade active in" id="personal-info">
+            <div class="page-header no-top-margin">
+                <h4 class="text-center text-primary">@Model.UserProfile.FirstName @Model.UserProfile.LastName from @Model.UserProfile.Town</h4>
+            </div>
+            <div class="text-info">
+                <span><strong>Username:</strong> @Model.UserProfile.Username</span>
+            </div>
+            <div class="text-info">
+                <span><strong>Email:</strong> @Model.UserProfile.Email</span>
+            </div>
+            <div class="text-info">
+                <span><strong>More about me:</strong> @(Model.UserProfile.Description != null ? Model.UserProfile.Description : "No additional information for " + Model.UserProfile.FirstName) </span>
+            </div>
         </div>
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#personal-info" data-toggle="tab" aria-expanded="true" class="text-warning">About</a></li>
-            <li><a href="#offering" data-toggle="tab" aria-expanded="false" class="text-warning">I offer you...</a></li>
-            <li><a href="#seeking" data-toggle="tab" aria-expanded="false" class="text-warning">I'm currently looking for...</a></li>
-            <li><a href="#message" data-toggle="tab" aria-expanded="false" class="text-warning">Send me a message</a></li>
-        </ul>
-        <div id="myTabContent" class="tab-content col-lg-10 col-lg-offset-1">
-            <div class="tab-pane fade active in" id="personal-info">
-                <div class="page-header no-top-margin">
-                    <h4 class="text-center text-primary">@Model.UserProfile.FirstName @Model.UserProfile.LastName from @Model.UserProfile.Town</h4>
-                </div>
-                <div class="text-info">
-                    <span><strong>Username:</strong> @Model.UserProfile.Username</span>
-                </div>
-                <div class="text-info">
-                    <span><strong>Email:</strong> @Model.UserProfile.Email</span>
-                </div>
-                <div class="text-info">
-                    <span><strong>More about me:</strong> @(Model.UserProfile.Description != null ? Model.UserProfile.Description : "No additional information for " + Model.UserProfile.FirstName) </span>
-                </div>
+        <div class="tab-pane fade" id="offering">
+            <div class="page-header no-top-margin">
+                <h4 class="text-center text-primary">I offer you</h4>
             </div>
-            <div class="tab-pane fade" id="offering">
-                <div class="page-header no-top-margin">
-                    <h4 class="text-center text-primary">I offer you</h4>
-                </div>
-                @if (Model.UserProfile.Offering.Any())
-                {
-                    foreach (var offeringSkill in Model.UserProfile.Offering)
-                    {
-                        <div class="well text-center">
-                            <ul class="breadcrumb">
-                                <li class="text-info">@offeringSkill.Name</li>
-                                <li class="text-info">@offeringSkill.ApproversCount people approve</li>
-                                <li>@if (offeringSkill.CanBeApprovedByCurrentUserLogged)
-                                    {
-                                        @Html.ActionLink(
-                                            "Approve",
-                                            "Approve",
-                                            new { area = "User", controller = "Profile", skillId = offeringSkill.Id },
-                                            new { @class = "btn btn-success" })
-                                    }
-                                    else
-                                    {
-                                        <span>You approve this skill</span>
-                                    }
-                                </li>
-                            </ul>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="text-center">No information in this section</div>
-                }
-            </div>
-            <div class="tab-pane fade" id="seeking">
-                <div class="page-header no-top-margin">
-                    <h4 class="text-center text-primary">I'm currently seeking for</h4>
-                </div>
-                @if (Model.UserProfile.Seeking.Any())
+            @if (Model.UserProfile.Offering.Any())
+            {
+                foreach (var offeringSkill in Model.UserProfile.Offering)
                 {
                     <div class="well text-center">
                         <ul class="breadcrumb">
-                            @foreach (var seekingSkill in Model.UserProfile.Seeking)
+                            <li class="text-info">@offeringSkill.Name</li>
+                            <li class="text-info">@offeringSkill.ApproversCount people approve</li>
+                            @if (!offeringSkill.CanBeApprovedByCurrentUserLogged)
                             {
-                                <li class="text-info">@seekingSkill.Name</li>
+                                <li>
+                                    <span class="text-success">You approve this skill</span>
+                                </li>
                             }
                         </ul>
+                        @if (offeringSkill.CanBeApprovedByCurrentUserLogged)
+                        {
+                            using (Html.BeginForm(
+                                "Approve",
+                                "Profile",
+                                new { area = "User", skillId = offeringSkill.Id },
+                                FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-success" type="submit">Approve</button>
+                            }
+                        }
                     </div>
                 }
-                else
-                {
-                    <div class="text-center">No information in this section</div>
-                }
-            </div>
-            <div class="tab-pane fade" id="message">
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="page-header no-top-margin">
-                            <h4 class="text-center text-primary">Message</h4>
-                        </div>
-                        <div class="form-group text-center">
-                            <div class="col-lg-10 col-lg-offset-1 form-inline">
-                                <textarea class="form-control" rows="4" cols="100" id="textArea"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-10 col-lg-offset-1 text-center">
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+            }
+            else
+            {
+                <div class="text-center">No information in this section</div>
+            }
         </div>
-    }
-    else
-    {
-        <div>Sorry, profile requested does not exist</div>
-    }
+        <div class="tab-pane fade" id="seeking">
+            <div class="page-header no-top-margin">
+                <h4 class="text-center text-primary">I'm currently seeking for</h4>
+            </div>
+            @if (Model.UserProfile.Seeking.Any())
+            {
+                <div class="well text-center">
+                    <ul class="breadcrumb">
+                        @foreach (var seekingSkill in Model.UserProfile.Seeking)
+                        {
+                            <li class="text-info">@seekingSkill.Name</li>
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div class="text-center">No information in this section</div>
+            }
+        </div>
+        <div class="tab-pane fade" id="message">
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="page-header no-top-margin">
+                        <h4 class="text-center text-primary">Message</h4>
+                    </div>
+                    <div class="form-group text-center">
+                        <div class="col-lg-10 col-lg-offset-1 form-inline">
+                            <textarea class="form-control" rows="4" cols="100" id="textArea"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-1 text-center">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </main>
 
 
