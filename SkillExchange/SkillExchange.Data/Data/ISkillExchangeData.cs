@@ -1,5 +1,7 @@
 ﻿namespace SkillExchange.Data.Data
 {
+    using System.Data.Entity;
+    using Context;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using Repositories;
@@ -24,7 +26,9 @@
 
         IRepository<Skill> Skills { get; }
 
-        IRepository<IdentityRole> Roles { get; } 
+        IRepository<IdentityRole> Roles { get; }
+
+        DbContextTransaction BeginTransaction();
 
         int SaveChanges();
     }

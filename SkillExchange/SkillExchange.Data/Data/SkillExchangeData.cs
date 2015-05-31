@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using Context;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
@@ -9,7 +10,7 @@
 
     public class SkillExchangeData : ISkillExchangeData
     {
-        private readonly ISkillExchangeDbContext dbContext;
+        private ISkillExchangeDbContext dbContext;
 
         private readonly IDictionary<Type, object> repositories;
 
@@ -67,6 +68,12 @@
         public IRepository<IdentityRole> Roles
         {
             get { return this.GetRepository<IdentityRole>(); }
+        }
+
+        public DbContextTransaction BeginTransaction()
+        {
+            var context = (DbContext) this.dbContext;
+            return context.Database.BeginTransaction();
         }
 
         public int SaveChanges()

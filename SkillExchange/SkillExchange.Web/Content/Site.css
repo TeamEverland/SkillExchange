@@ -30,6 +30,16 @@ textarea {
 }
 
 .unread-notification {
-    background: rgb(218, 137, 38)
+    background: rgb(203, 170, 109);
+    border: 1px solid rgb(100, 100, 100)
+}
+
+.read-notification {
+    background: rgb(217, 237, 247);
+    border: 1px solid rgb(100, 100, 100)
+}
+
+.mark-button {
+    margin-top: 2%;
 }
 /*User area css*/

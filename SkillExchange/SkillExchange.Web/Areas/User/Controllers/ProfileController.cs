@@ -1,7 +1,9 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
+    using System;
     using System.Data.Entity;
     using System.Linq;
+    using System.Transactions;
     using System.Web.Mvc;
     using Common;
     using Data.Data;
@@ -82,37 +84,72 @@
         {
             var userOwner = this.Data.UserSkills
                 .All()
-                .Where(s => s.Id == skillId)
-                .Select(s => s.User.UserName)
-                .FirstOrDefault();
+                .FirstOrDefault(s => s.Id == skillId);
 
-            if (userOwner != this.UserProfile.UserName)
+            if (userOwner != null)
             {
-                if (!this.Data.Approvers
-                    .All()
-                    .Any(a => a.UserSkillId == skillId && a.ApproverUserId == this.UserProfile.Id))
+                if (userOwner.UserId != this.UserProfile.Id)
                 {
-                    var approver = new Approver
+                    bool skillIsAlreadyApproved = this.Data.Approvers
+                        .All()
+                        .Any(a => a.UserSkillId == skillId && a.ApproverUserId == this.UserProfile.Id);
+                    if (!skillIsAlreadyApproved)
                     {
-                        ApproverUserId = this.UserProfile.Id,
-                        UserSkillId = skillId
-                    };
-
-                    this.Data.Approvers.Add(approver);
-                    var addResult = this.Data.SaveChanges();
-                    if (addResult > 0)
-                    {
-                        TempData["message"] = new NotitficationMessage
+                        var approver = new Approver
                         {
-                            Content = SuccessMessages.SkillSuccessfullyApprovedMessage,
-                            Type = NotificationMessageType.Success
-                        }; 
+                            ApproverUserId = this.UserProfile.Id,
+                            UserSkillId = skillId
+                        };
+
+                        var notification = new Notification
+                        {
+
+                            Content = "<strong>" + this.UserProfile.UserName + "</strong> approved your skill " +
+                                "<strong>" + this.Data.UserSkills.All().First(s => s.Id == skillId).Skill.Name + "</strong>",
+                            RecieverId = userOwner.UserId
+                        };
+
+                        this.Data.Approvers.Add(approver);
+                        this.Data.Notifications.Add(notification);
+                        using (var dbContextTransaction = this.Data.BeginTransaction())
+                        {
+                            try
+                            {
+                                var addResult = this.Data.SaveChanges();
+                                if (addResult > 0)
+                                {
+                                    dbContextTransaction.Commit();
+                                    TempData["message"] = new NotitficationMessage
+                                    {
+                                        Content = SuccessMessages.SkillSuccessfullyApprovedMessage,
+                                        Type = NotificationMessageType.Success
+                                    };
+                                }
+                                else
+                                {
+                                    TempData["message"] = new NotitficationMessage
+                                    {
+                                        Content = ErrorMessages.ApproveSkillErrorMessage,
+                                        Type = NotificationMessageType.Error
+                                    };
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                dbContextTransaction.Rollback();
+                                TempData["message"] = new NotitficationMessage
+                                {
+                                    Content = ErrorMessages.ApproveSkillErrorMessage,
+                                    Type = NotificationMessageType.Error
+                                };
+                            }
+                        }
                     }
                     else
                     {
                         TempData["message"] = new NotitficationMessage
                         {
-                            Content = "You have already approved this skill",
+                            Content = ErrorMessages.AlreadyApprovedSkillMessage,
                             Type = NotificationMessageType.Error
                         };
                     }
@@ -121,21 +158,23 @@
                 {
                     TempData["message"] = new NotitficationMessage
                     {
-                        Content = "You have already approved this skill",
+                        Content = ErrorMessages.AttemptToApproveOwnSkillMessage,
                         Type = NotificationMessageType.Error
                     };
                 }
+
+                return this.RedirectToAction("Show", "Profile", new { username = userOwner.User.UserName });
             }
             else
             {
                 TempData["message"] = new NotitficationMessage
                 {
-                    Content = "You cannot approve your own skills",
+                    Content = ErrorMessages.AttemptToApproveOwnSkillMessage,
                     Type = NotificationMessageType.Error
                 };
-            }
 
-            return this.RedirectToAction("Show", "Profile", new { username = userOwner });
+                return this.RedirectToAction("Error", "Home", new { area = "" });
+            }
         }
     }
 }

@@ -29,7 +29,8 @@
 
                 query = this.Data.Users
                     .All()
-                    .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId));
+                    .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId) &&
+                    u.Id != this.UserProfile.Id);
             }
             else
             {
