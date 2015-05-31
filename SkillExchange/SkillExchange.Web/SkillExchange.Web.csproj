@@ -187,12 +187,15 @@
     <Compile Include="Areas\User\Models\CategoriesPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
+    <Compile Include="Areas\User\Models\NotificationMessageType.cs" />
     <Compile Include="Areas\User\Models\NotificationViewModel.cs" />
+    <Compile Include="Areas\User\Models\NotitficationMessage.cs" />
     <Compile Include="Areas\User\Models\OfferingSkillViewModel.cs" />
     <Compile Include="Areas\User\Models\TownsPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileFullViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileSummaryViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -288,6 +291,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{16218768-855f-4278-a719-6a31d7b3a410}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SkillExchange.Data\SkillExchange.Data.csproj">
       <Project>{8b1632c5-5c7e-4e2f-9939-96baff800a78}</Project>
       <Name>SkillExchange.Data</Name>
