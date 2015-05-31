@@ -1,13 +1,41 @@
-﻿@model SkillExchange.Web.Areas.User.Models.ProfileViewModel
-
+﻿@using Infragistics.Web.Mvc
+@model SkillExchange.Web.Areas.User.Models.ProfileModel
 <main>
-    @Html.LabelFor(m => m.FirstName)
-    @Html.EditorFor(m => m.FirstName)
-    @Html.LabelFor(m => m.LastName)
-    @Html.EditorFor(m => m.LastName)
-    @Html.LabelFor(m => m.Username)
-    @Html.EditorFor(m => m.Username)
-    @Html.LabelFor(m => m.Town)
-    @Html.EditorFor(m => m.Town)
+    <form class="form-horizontal col-lg-8 col-lg-offset-2">
+        <fieldset>
+            <legend>Legend</legend>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName)
+                @Html.EditorFor(m => m.FirstName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName)
+                @Html.EditorFor(m => m.LastName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Username)
+                @Html.EditorFor(m => m.Username)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Username)
+                @Html.EditorFor(m => m.Username)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Town)
+                @(Html.Infragistics().ComboFor(x => x.TownId)
+                      .DataSource(Url.Action("GetTowns"))
+                      .ValueKey("Id")
+                      .TextKey("Name")
+                      .DataBind()
+                      .Render())
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
 </main>
 

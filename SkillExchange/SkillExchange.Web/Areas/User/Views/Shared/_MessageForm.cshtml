@@ -1,0 +1,27 @@
+﻿@using SkillExchange.Web.Areas.User.Models
+@model MessageInputModel
+
+@using (Html.BeginForm(
+                "Send",
+                "Messages",
+                new { area = "User" },
+                FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        @Html.HiddenFor(m => m.RecieverId)
+        <div class="page-header no-top-margin">
+            <h4 class="text-center text-primary">Message</h4>
+        </div>
+        <div class="form-group text-center">
+            <div class="col-lg-10 col-lg-offset-1 form-inline">
+                @Html.TextAreaFor(model => model.Content, new { cols="100" , rows="4", @class = "form-control", id = "textArea" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-1 text-center">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </fieldset>
+}

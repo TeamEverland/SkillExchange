@@ -137,7 +137,7 @@
            
             if (TempData["message"] != null)
             {
-                var message = (NotitficationMessage)TempData["message"];
+                var message = (NotificationMessage)TempData["message"];
 
                 return this.View(message);
             }

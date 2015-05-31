@@ -2,7 +2,7 @@
 {
     public class UserProfileViewModel
     {
-        public NotitficationMessage Message { get; set; }
+        public NotificationMessage Message { get; set; }
 
         public UserProfileFullViewModel UserProfile { get; set; }
     }

@@ -7,7 +7,7 @@
     {
         public Message()
         {
-            this.IsRead = true;
+            this.IsRead = false;
             this.Date = DateTime.Now;
         }
 

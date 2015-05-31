@@ -41,6 +41,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Infragistics.Olap.DataProvider.Adomd.Mvc, Version=5.15.1.1005, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\2015.1\Ignite UI\MVC\MVC5\Bin\Infragistics.Olap.DataProvider.Adomd.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics.Web.Mvc, Version=5.15.1.1005, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\2015.1\Ignite UI\MVC\MVC5\Bin\Infragistics.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -189,13 +198,15 @@
     <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\User\Models\EditProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
+    <Compile Include="Areas\User\Models\MessageInputModel.cs" />
     <Compile Include="Areas\User\Models\NotificationMessageType.cs" />
     <Compile Include="Areas\User\Models\NotificationViewModel.cs" />
-    <Compile Include="Areas\User\Models\NotitficationMessage.cs" />
+    <Compile Include="Areas\User\Models\NotificationMessage.cs" />
     <Compile Include="Areas\User\Models\OfferingSkillViewModel.cs" />
+    <Compile Include="Areas\User\Models\TownAsOptionViewModel.cs" />
     <Compile Include="Areas\User\Models\TownsPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
-    <Compile Include="Areas\User\Models\ProfileViewModel.cs" />
+    <Compile Include="Areas\User\Models\ProfileModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileFullViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileSummaryViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
@@ -219,6 +230,19 @@
     <Content Include="Content\bootstrap-default.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\igniteui\images\icon_sprite.png" />
+    <Content Include="Content\igniteui\images\igRating\ig-rating.png" />
+    <Content Include="Content\igniteui\images\igVideoPlayer\igVideoPlayerIcons.png" />
+    <Content Include="Content\igniteui\images\igVideoPlayer\igVPBackground.png" />
+    <Content Include="Content\igniteui\images\igVideoPlayer\igVPBookmarkSprite.png" />
+    <Content Include="Content\igniteui\images\trial.png" />
+    <Content Include="Content\igniteui\images\ui-anim_basic_16x16.gif" />
+    <Content Include="Content\igniteui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\igniteui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\igniteui\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\igniteui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\igniteui\infragistics.css" />
+    <Content Include="Content\igniteui\infragistics.theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -239,10 +263,17 @@
     <Content Include="Areas\User\Views\Profile\Show.cshtml" />
     <Content Include="Areas\User\Views\Home\Error.cshtml" />
     <Content Include="Areas\User\Views\Profile\Edit.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_Conversations.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_Conversation.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_MessageForm.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\igniteui\infragistics.core.js" />
+    <Content Include="Scripts\igniteui\infragistics.dv.js" />
+    <Content Include="Scripts\igniteui\infragistics.lob.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

@@ -2,13 +2,15 @@
 {
     using System.Collections.Generic;
 
-    public class ProfileViewModel
+    public class ProfileModel
     {
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
         public string Username { get; set; }
+
+        public int TownId { get; set; }
 
         public string Town { get; set; }
 

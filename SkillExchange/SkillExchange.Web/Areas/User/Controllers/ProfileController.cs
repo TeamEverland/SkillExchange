@@ -26,7 +26,7 @@
             var userProfile = this.Data.Users
                 .All()
                 .Where(u => u.Id == this.UserProfile.Id)
-                .Select(u => new ProfileViewModel
+                .Select(u => new ProfileModel
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
@@ -56,12 +56,13 @@
             var userProfile = this.Data.Users
                 .All()
                 .Where(u => u.Id == this.UserProfile.Id)
-                .Select(u => new ProfileViewModel
+                .Select(u => new ProfileModel
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Username = u.UserName,
                     Email = u.Email,
+                    TownId = u.TownId.Value,
                     Town = u.Town.Name,
                     Description = u.Description,
                     OfferingSkills = u.Skills
@@ -87,7 +88,7 @@
 
             if (TempData["message"] != null)
             {
-                viewModel.Message = (NotitficationMessage)TempData["message"];
+                viewModel.Message = (NotificationMessage)TempData["message"];
             }
 
             var approvedSkillsByCurrentUserLogged = this.Data.Approvers
@@ -137,7 +138,7 @@
                 return this.View(viewModel);
             }
 
-            TempData["message"] = new NotitficationMessage
+            TempData["message"] = new NotificationMessage
             {
                 Content = ErrorMessages.RequestedNotExistingUserPprofileMessage,
                 Type = NotificationMessageType.Error
@@ -190,7 +191,7 @@
                                 if (addResult > 0)
                                 {
                                     dbContextTransaction.Commit();
-                                    TempData["message"] = new NotitficationMessage
+                                    TempData["message"] = new NotificationMessage
                                     {
                                         Content = SuccessMessages.SkillSuccessfullyApprovedMessage,
                                         Type = NotificationMessageType.Success
@@ -198,7 +199,7 @@
                                 }
                                 else
                                 {
-                                    TempData["message"] = new NotitficationMessage
+                                    TempData["message"] = new NotificationMessage
                                     {
                                         Content = ErrorMessages.ApproveSkillErrorMessage,
                                         Type = NotificationMessageType.Error
@@ -208,7 +209,7 @@
                             catch (Exception)
                             {
                                 dbContextTransaction.Rollback();
-                                TempData["message"] = new NotitficationMessage
+                                TempData["message"] = new NotificationMessage
                                 {
                                     Content = ErrorMessages.ApproveSkillErrorMessage,
                                     Type = NotificationMessageType.Error
@@ -218,7 +219,7 @@
                     }
                     else
                     {
-                        TempData["message"] = new NotitficationMessage
+                        TempData["message"] = new NotificationMessage
                         {
                             Content = ErrorMessages.AlreadyApprovedSkillMessage,
                             Type = NotificationMessageType.Error
@@ -227,7 +228,7 @@
                 }
                 else
                 {
-                    TempData["message"] = new NotitficationMessage
+                    TempData["message"] = new NotificationMessage
                     {
                         Content = ErrorMessages.AttemptToApproveOwnSkillMessage,
                         Type = NotificationMessageType.Error
@@ -238,7 +239,7 @@
             }
             else
             {
-                TempData["message"] = new NotitficationMessage
+                TempData["message"] = new NotificationMessage
                 {
                     Content = ErrorMessages.RequestedNotExistingUserSkillMessage,
                     Type = NotificationMessageType.Error
@@ -246,6 +247,41 @@
 
                 return this.RedirectToAction("Error", "Home", new { area = "User" });
             }
+        }
+
+
+        public ActionResult GetTowns()
+        {
+            var towns = this.Data.Towns.All()
+                .Select(t => new TownAsOptionViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name
+                });
+
+            return this.Json(towns.AsQueryable(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult MessageForm(string recieverUsername)
+        {
+            var reciever = this.Data.Users.All().FirstOrDefault(u => u.UserName == recieverUsername);
+            if (reciever != null)
+            {
+                var model = new MessageInputModel
+                {
+                    RecieverId = reciever.Id
+                };
+
+                return this.PartialView("_MessageForm", model);
+            }
+
+            TempData["message"] = new NotificationMessage
+            {
+                Type = NotificationMessageType.Error,
+                Content = "Sorry, message reciever was not found"
+            };
+
+            return this.RedirectToAction("Error", "Home");
         }
     }
 }
