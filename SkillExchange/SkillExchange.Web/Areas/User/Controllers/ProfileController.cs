@@ -23,7 +23,59 @@
         [HttpGet]
         public ActionResult Index()
         {
-            return this.View();
+            var userProfile = this.Data.Users
+                .All()
+                .Where(u => u.Id == this.UserProfile.Id)
+                .Select(u => new ProfileViewModel
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Username = u.LastName,
+                    Email = u.Email,
+                    Town = u.Town.Name,
+                    Description = u.Description,
+                    OfferingSkills = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Offering")
+                        .Select(s => s.Skill.Name)
+                        .ToList(),
+                    SeekingSkills = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Seeking")
+                        .Select(s => s.Skill.Name)
+                        .ToList()
+                })
+                .First();
+
+            return this.View(userProfile);
+        }
+
+        // GET: User/Profile/Edit
+        [Authorize]
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            var userProfile = this.Data.Users
+                .All()
+                .Where(u => u.Id == this.UserProfile.Id)
+                .Select(u => new ProfileViewModel
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Username = u.UserName,
+                    Email = u.Email,
+                    Town = u.Town.Name,
+                    Description = u.Description,
+                    OfferingSkills = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Offering")
+                        .Select(s => s.Skill.Name)
+                        .ToList(),
+                    SeekingSkills = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Seeking")
+                        .Select(s => s.Skill.Name)
+                        .ToList()
+                })
+                .First();
+
+            return this.View(userProfile);
         }
 
         // GET: User/Profile/Show

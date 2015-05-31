@@ -25,7 +25,13 @@
                     <li>@Html.ActionLink("Search", "Search", new { area = "User", controller = "Home" })</li>
                     <li>@Html.ActionLink("Messages", "Index", new { area = "User", controller = "Messages" })</li>
                     <li>@Html.ActionLink("Notifications", "Index", new { area = "User", controller = "Notifications" })</li>
-                    <li>@Html.ActionLink("Profile", "Index", new { area = "User", controller = "Profile" })</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Profile <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="download">
+                            <li>@Html.ActionLink("Profile", "Index", new { area = "User", controller = "Profile" })</li>
+                            <li>@Html.ActionLink("Edit", "Edit", new { area = "User", controller = "Profile" })</li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
