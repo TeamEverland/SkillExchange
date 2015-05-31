@@ -3,15 +3,16 @@
     ViewBag.Title = "Home";
 }
 
-
-<aside class="col-lg-2">
-    @Html.Action(
+<div class="col-lg-2 no-padding">
+    <aside class="col-lg-12">
+        @Html.Action(
         "Categories",
-        new{categoryId = Model.SelectedCategoryId, townId = Model.SelectedTownId})
-</aside>
-<aside class="col-lg-2">
-    @*@Html.Action("Towns")*@
-</aside>
+        new { categoryId = Model.SelectedCategoryId, townId = Model.SelectedTownId })
+    </aside>
+    <aside class="col-lg-12">
+        @Html.Action("Towns")
+    </aside>
+</div>
 <section class="col-lg-8 col-lg-offset-1">
     <div class="page-header text-center no-top-margin">
         <h2 class="text-primary no-top-margin">Most active users</h2>

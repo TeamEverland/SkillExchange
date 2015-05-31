@@ -21,12 +21,12 @@
         {
             if (!context.Users.Any())
             {
+                this.CreateTowns(context);
                 this.CreateUsers(context);
                 this.AddAdminUser(context);
                 this.CreateSkillCategories(context);
                 this.CreateExchangeTypes(context);
                 this.CreateSkills(context);
-                this.CreateTowns(context);
                 this.CreateUserSkills(context);
             }
         }
@@ -85,6 +85,7 @@
                 RequireUppercase = false,
             };
 
+            var randomGenerator = new Random();
             foreach (var userData in usersdata)
             {
                 var user = new User
@@ -93,6 +94,10 @@
                     FirstName = userData.FirstName,
                     LastName = userData.LastName,
                     Email = userData.Username + "@gmail.com",
+                    Town = context.Towns
+                        .Find(
+                            randomGenerator.Next(context.Towns.Select(t => t.Id).Min(),
+                            context.Towns.Select(t => t.Id).Max()))
                 };
 
                 var password = "123456";

@@ -77,10 +77,9 @@
             var userSkillsInCategory = this.Data.UserSkills
                 .All()
                 .Include(us => us.Skill)
-                .DistinctBy(us => us.SkillId)
                 .Select(us => new {us.Skill.CategoryId, us.SkillId})
                 .GroupBy(us => us.CategoryId)
-                .ToDictionary(g => g.Key, g => g.Count());
+                .ToDictionary(g => g.Key, g => g.Distinct().Count());
 
             var categories = this.Data.SkillCategories
                 .All()
@@ -88,7 +87,8 @@
                 {
                     Id = c.Id,
                     Name = c.Name,
-                }).ToList();
+                })
+                .ToList();
 
             categories.ForEach(x => x.UserSkillsCount = userSkillsInCategory.ContainsKey(x.Id) ? userSkillsInCategory[x.Id] : 0);
 
@@ -102,27 +102,33 @@
         }
 
         [ChildActionOnly]
-        public PartialViewResult Towns()
+        public PartialViewResult Towns(int? townId)
         {
             var userSkillsInTown = this.Data.UserSkills
                 .All()
                 .Include(us => us.User)
-                .DistinctBy(us => us.User.TownId)
                 .Select(us => new { us.User.TownId, us.SkillId })
                 .GroupBy(us => us.TownId)
-                .ToDictionary(g => g.Key, g => g.Count());
+                .ToDictionary(g => g.Key, g => g.Distinct().Count());
 
-            var towns = this.Data.SkillCategories
+            var towns = this.Data.Towns
                 .All()
                 .Select(c => new TownViewModel
                 {
                     Id = c.Id,
                     Name = c.Name,
-                }).ToList();
+                })
+                .ToList();
 
             towns.ForEach(x => x.UserSkillsCount = userSkillsInTown.ContainsKey(x.Id) ? userSkillsInTown[x.Id] : 0);
 
-            return this.PartialView("_Towns", towns);
+            var viewModel = new TownsPartialViewModel
+            {
+                SelectedTownId = townId,
+                Towns = towns
+            };
+
+            return this.PartialView("_Towns", viewModel);
         }
     }
 }

@@ -24,6 +24,12 @@ textarea {
     max-width: 280px;
 }
 
+/*User area css*/
 .no-top-margin {
     margin-top: 0
 }
+
+.no-padding {
+    padding: 0
+}
+/*User area css*/

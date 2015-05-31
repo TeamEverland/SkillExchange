@@ -1,19 +1,23 @@
-﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.TownViewModel>
+﻿@model  SkillExchange.Web.Areas.User.Models.TownsPartialViewModel
 
-
-@if (Model.Any())
+@if (Model.Towns.Any())
 {
-    <div class="list-group col-lg-2">
+    <div class="list-group">
         <div class="list-group-item active">
-            Towns
+            Categories
         </div>
-        <div class="list-group-item active">
-            <a href="#">All</a>
+        <div class="list-group-item @(Model.SelectedTownId == null ? "btn btn-default" : "")">
+            @Html.ActionLink("All", "Index", new { area = "User", controller = "Home" })
         </div>
-        @foreach (var town in Model)
+        @foreach (var town in Model.Towns)
         {
-            <div class="list-group-item">
-                <a href="#">@town.Name </a>
+            <div class="list-group-item @(Model.SelectedTownId == town.Id ? "btn btn-default" : "")">
+                @Html.ActionLink(town.Name, "Index", new
+                    {
+                        area = "User",
+                        controller = "Home",
+                        townId = town.Id
+                    })
                 <span class="badge">@town.UserSkillsCount</span>
             </div>
         }
