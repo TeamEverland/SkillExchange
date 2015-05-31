@@ -200,6 +200,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ApprovesHub.cs" />
+    <Compile Include="Hubs\BaseHub.cs" />
+    <Compile Include="Hubs\ConnectionMapping.cs" />
+    <Compile Include="Hubs\MessagesHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

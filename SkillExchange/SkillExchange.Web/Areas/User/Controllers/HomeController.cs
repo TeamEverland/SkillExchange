@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Web.Mvc;
     using Data.Data;
-    using Microsoft.Ajax.Utilities;
     using Models;
     using SkillExchange.Models;
     using Web.Controllers;
