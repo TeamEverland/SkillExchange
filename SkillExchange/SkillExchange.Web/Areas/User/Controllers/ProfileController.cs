@@ -253,11 +253,13 @@
         public ActionResult GetTowns()
         {
             var towns = this.Data.Towns.All()
+                .Where(t => t.Id != this.UserProfile.TownId)
                 .Select(t => new TownAsOptionViewModel
                 {
                     Id = t.Id,
                     Name = t.Name
-                });
+                })
+                .ToList();
 
             return this.Json(towns.AsQueryable(), JsonRequestBehavior.AllowGet);
         }

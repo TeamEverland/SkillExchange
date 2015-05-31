@@ -1,41 +1,39 @@
-﻿@using Infragistics.Web.Mvc
-@model SkillExchange.Web.Areas.User.Models.ProfileModel
+﻿@model SkillExchange.Web.Areas.User.Models.ProfileModel
 <main>
     <form class="form-horizontal col-lg-8 col-lg-offset-2">
         <fieldset>
             <legend>Legend</legend>
             <div class="form-group">
-                @Html.LabelFor(m => m.FirstName)
-                @Html.EditorFor(m => m.FirstName)
+                @Html.LabelFor(m => m.FirstName, new {@for = "first-name", @class = "col-lg-2 control-label"})
+                @Html.TextBoxFor(m => m.FirstName, new {id = "first-name", @class = "form-control"})
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.LastName)
-                @Html.EditorFor(m => m.LastName)
+                @Html.LabelFor(m => m.LastName, new {@for = "last-name", @class = "col-lg-2 control-label"})
+                @Html.TextBoxFor(m => m.LastName, new {id = "last-name", @class = "form-control"})
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Username)
-                @Html.EditorFor(m => m.Username)
+                @Html.LabelFor(m => m.Username, new {@for = "username", @class = "col-lg-2 control-label"})
+                @Html.TextBoxFor(m => m.Username, new {id = "username", @class = "form-control"})
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Username)
-                @Html.EditorFor(m => m.Username)
+                @Html.LabelFor(m => m.Description, new {@for = "description", @class = "col-lg-2 control-label"})
+                @Html.TextAreaFor(m => m.Description, new {id = "description", @class = "form-control"})
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Town)
-                @(Html.Infragistics().ComboFor(x => x.TownId)
-                      .DataSource(Url.Action("GetTowns"))
-                      .ValueKey("Id")
-                      .TextKey("Name")
-                      .DataBind()
-                      .Render())
+                @Html.LabelFor(m => m.Town, new { @for = "towns", @class = "col-lg-2 control-label" })
+                @Html.DropDownListFor(
+                    m => m.TownId,
+                    new SelectList(new[] {new {Id = Model.TownId, Name = Model.Town},}, "Id", "Name", 1),
+                    new {id = "towns", @class = "form-control"})
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-default">Cancel</button>
                 </div>
             </div>
         </fieldset>
     </form>
 </main>
 
+@Scripts.Render("~/bundles/populate-towns")

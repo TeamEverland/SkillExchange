@@ -1,7 +1,6 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Web.Mvc;
     using Data.Data;
     using Microsoft.Ajax.Utilities;
@@ -37,8 +36,6 @@
                     SenderId = this.UserProfile.Id,
                     Content = message.Content
                 });
-
-                
 
                 this.Data.SaveChanges();
             }
