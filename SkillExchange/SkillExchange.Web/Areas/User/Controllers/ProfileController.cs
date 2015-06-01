@@ -6,6 +6,7 @@
     using System.Web.Mvc;
     using Common;
     using Data.Data;
+    using EntityFramework.Extensions;
     using Models;
     using SkillExchange.Models;
     using Web.Controllers;
@@ -13,9 +14,6 @@
 
     public class ProfileController : BaseController
     {
-        private int maxIndexIfOfferingSkillsList;
-        private int maxIndexIfSeekingSkillsList;
-
         public ProfileController(ISkillExchangeData data)
             : base(data)
         {
@@ -116,26 +114,45 @@
 
                 profileToBeEdited.FirstName = model.FirstName;
                 profileToBeEdited.LastName = model.LastName;
-                profileToBeEdited.UserName = model.Username;
+                // Temporary removed
+                // profileToBeEdited.UserName = model.Username;
                 profileToBeEdited.Email = model.Email;
                 profileToBeEdited.TownId = model.TownId;
                 profileToBeEdited.Description = model.Description;
+
+                foreach (var skill in model.OfferingSkills)
+                {
+                    if (skill.State == UserSkillState.ExistingDeleted)
+                    {
+                        this.Data.Approvers.All().Where(a => a.UserSkillId == skill.Id).Delete();
+                        this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
+                    }
+
+                    if (skill.State == UserSkillState.New)
+                    {
+                        // TODO check:
+                        // - if skill name exists
+                        // - if user has already the skill 
+                    }
+                }
+
+                foreach (var skill in model.SeekingSkills)
+                {
+                    if (skill.State == UserSkillState.ExistingDeleted)
+                    {
+                        this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
+                    }
+
+                    if (skill.State == UserSkillState.New)
+                    {
+                        // TODO check:
+                        // - if skill name exists
+                        // - if user has already the skill 
+                    }
+                }
+
                 this.Data.Users.Update(profileToBeEdited);
                 this.Data.SaveChanges();
-                //foreach (var skill in model.OfferingSkills)
-                //{
-                //    if (skill.State == UserSkillState.ExistingDeleted)
-                //    {
-                //        this.Data.UserSkills.Remove(skill.Id);
-                //    }
-
-                //    if (skill.State == UserSkillState.New)
-                //    {
-                //        // TODO check:
-                //        // - if skill name is existing
-                //        // - if user has the skill already
-                //    }
-                //}
             }
 
             return this.RedirectToAction("Index", "Profile");
