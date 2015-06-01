@@ -18,8 +18,8 @@
 
         public string Description { get; set; }
 
-        public ICollection<UserSkillViewModel> OfferingSkills { get; set; }
+        public IList<UserSkillViewModel> OfferingSkills { get; set; }
 
-        public ICollection<UserSkillViewModel> SeekingSkills { get; set; } 
+        public IList<UserSkillViewModel> SeekingSkills { get; set; } 
     }
 }

@@ -1,0 +1,11 @@
+﻿@model SkillExchange.Web.Areas.User.Models.SkillEditorModel
+
+<div class="col-lg-12 add-skill-editor">
+    @Html.TextBox(
+        Model.SkillExchangeType + "Skills[" + Model.SkillListIndex + "].Name",
+        string.Empty,
+        new { @class = "form-control col-lg-10" })
+    @Html.Hidden(Model.SkillExchangeType + "Skills[" + Model.SkillListIndex + "].Id")
+    <a class="col-lg-1 col-lg-offset-1 text-center btn-sm btn-primary remove-skill-btn">x</a>
+</div>
+

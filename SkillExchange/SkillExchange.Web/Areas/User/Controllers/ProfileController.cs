@@ -13,6 +13,9 @@
 
     public class ProfileController : BaseController
     {
+        private int maxIndexIfOfferingSkillsList;
+        private int maxIndexIfSeekingSkillsList;
+
         public ProfileController(ISkillExchangeData data)
             : base(data)
         {
@@ -92,9 +95,15 @@
                 })
                 .First();
 
+            Session["maxIndexOfferingSkillsList"] = userProfile.OfferingSkills.Count - 1;
+
+            Session["maxIndexSeekingSkillsList"] = userProfile.SeekingSkills.Count - 1;
+
             return this.View(userProfile);
         }
 
+        [Authorize]
+        [HttpPost]
         public ActionResult Edit(ProfileModel model)
         {
             return this.View();
@@ -307,9 +316,27 @@
             return this.RedirectToAction("Error", "Home");
         }
 
-        public PartialViewResult SkillEditor()
+        [HttpPost]
+        public ActionResult SkillEditor(string exchangeType)
         {
-            return this.PartialView("EditorTemplates/UserSkillViewModel");
+            var model = new SkillEditorModel();
+            if (exchangeType == "Offering")
+            {
+                Session["maxIndexOfferingSkillsList"] =  (int)Session["maxIndexOfferingSkillsList"] + 1;
+                model.SkillListIndex = (int)Session["maxIndexOfferingSkillsList"];
+            }
+            else if (exchangeType == "Seeking")
+            {
+                Session["maxIndexSeekingSkillsList"] = (int)Session["maxIndexSeekingSkillsList"] + 1;
+                model.SkillListIndex = (int)Session["maxIndexSeekingSkillsList"];
+            }
+            else
+            {
+                return this.Content("");
+            }
+
+            model.SkillExchangeType = exchangeType;
+            return this.PartialView("_SkillEditor", model);
         }
     }
 }

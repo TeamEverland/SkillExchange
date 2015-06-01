@@ -57,9 +57,18 @@
                     <div class="text-warning text-center skill-section-title">Offering</div>
                     @if (Model.OfferingSkills.Any())
                     {
-                        foreach (var offeringSkill in Model.OfferingSkills)
+                        @*foreach (var offeringSkill in Model.OfferingSkills)
                         {
                             @Html.EditorFor(m => offeringSkill)
+                        }*@
+
+                        for (int skill = 0; skill < Model.OfferingSkills.Count; skill++)
+                        {
+                            <div class="col-lg-12 add-skill-editor">
+                                @Html.TextBoxFor(m => m.OfferingSkills[skill].Name, new { @class = "form-control col-lg-10"})
+                                @Html.HiddenFor(m => m.OfferingSkills[skill].Id)
+                                <a class="col-lg-1 col-lg-offset-1 text-center btn-sm btn-primary remove-skill-btn">x</a>
+                            </div>
                         }
                     }
                     else
@@ -100,7 +109,6 @@
             </div>
         </div>
     }
-    <form class=""></form>
 </main>
 
 @Scripts.Render("~/bundles/populate-towns")

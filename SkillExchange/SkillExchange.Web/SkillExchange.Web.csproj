@@ -194,6 +194,7 @@
     <Compile Include="Areas\User\Models\NotificationViewModel.cs" />
     <Compile Include="Areas\User\Models\NotificationMessage.cs" />
     <Compile Include="Areas\User\Models\OfferingSkillViewModel.cs" />
+    <Compile Include="Areas\User\Models\SkillEditorModel.cs" />
     <Compile Include="Areas\User\Models\TownAsOptionViewModel.cs" />
     <Compile Include="Areas\User\Models\TownsPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
@@ -244,7 +245,7 @@
     <Content Include="Areas\User\Views\Shared\_Conversations.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Conversation.cshtml" />
     <Content Include="Areas\User\Views\Shared\_MessageForm.cshtml" />
-    <Content Include="Areas\User\Views\Shared\EditorTemplates\UserSkillViewModel.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_SkillEditor.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\populate-towns.js" />

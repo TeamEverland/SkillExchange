@@ -5,7 +5,8 @@
     addOfferingSkillBtn.on('click', function() {
         $.ajax({
             url: '/User/Profile/SkillEditor',
-            method: 'GET',
+            data: { exchangeType: 'Offering' },
+            method: 'POST',
             success: function (data) {
                 $('#no-offering-skills-info').remove();
                 var $offeringSkillsSection = $('#offering-skills');
@@ -17,7 +18,8 @@
     addSeekingSkillBtn.on('click', function () {
         $.ajax({
             url: '/User/Profile/SkillEditor',
-            method: 'GET',
+            data: { exchangeType: 'Seeking' },
+            method: 'POST',
             success: function (data) {
                 $('#no-seeking-skills-info').remove();
                 var $seekingSkillsSection = $('#seeking-skills');
