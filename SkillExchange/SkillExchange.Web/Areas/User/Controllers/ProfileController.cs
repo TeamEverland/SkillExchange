@@ -120,36 +120,44 @@
                 profileToBeEdited.TownId = model.TownId;
                 profileToBeEdited.Description = model.Description;
 
-                foreach (var skill in model.OfferingSkills)
+                if (model.OfferingSkills != null)
                 {
-                    if (skill.State == UserSkillState.ExistingDeleted)
+                    foreach (var skill in model.OfferingSkills)
                     {
-                        this.Data.Approvers.All().Where(a => a.UserSkillId == skill.Id).Delete();
-                        this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
-                    }
+                        if (skill.State == UserSkillState.ExistingDeleted)
+                        {
+                            this.Data.Approvers.All().Where(a => a.UserSkillId == skill.Id).Delete();
+                            this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
+                        }
 
-                    if (skill.State == UserSkillState.New)
-                    {
-                        // TODO check:
-                        // - if skill name exists
-                        // - if user has already the skill 
+                        if (skill.State == UserSkillState.New)
+                        {
+                            // TODO check:
+                            // - if skill name exists
+                            // - if user has already the skill 
+                        }
                     }
                 }
+                
 
-                foreach (var skill in model.SeekingSkills)
+                if (model.SeekingSkills != null)
                 {
-                    if (skill.State == UserSkillState.ExistingDeleted)
+                    foreach (var skill in model.SeekingSkills)
                     {
-                        this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
-                    }
+                        if (skill.State == UserSkillState.ExistingDeleted)
+                        {
+                            this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
+                        }
 
-                    if (skill.State == UserSkillState.New)
-                    {
-                        // TODO check:
-                        // - if skill name exists
-                        // - if user has already the skill 
-                    }
+                        if (skill.State == UserSkillState.New)
+                        {
+                            // TODO check:
+                            // - if skill name exists
+                            // - if user has already the skill 
+                        }
+                    } 
                 }
+                
 
                 this.Data.Users.Update(profileToBeEdited);
                 this.Data.SaveChanges();
