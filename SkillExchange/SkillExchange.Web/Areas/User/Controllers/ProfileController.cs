@@ -40,7 +40,9 @@
                         .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
-                            Name = s.Skill.Name
+                            Name = s.Skill.Name,
+                            CategoryId = s.Skill.CategoryId,
+                            CategoryName = s.Skill.Category.Name
                         })
                         .ToList(),
                     SeekingSkills = u.Skills
@@ -48,7 +50,9 @@
                         .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
-                            Name = s.Skill.Name
+                            Name = s.Skill.Name,
+                            CategoryId = s.Skill.CategoryId,
+                            CategoryName = s.Skill.Category.Name
                         })
                         .ToList()
                 })
@@ -80,6 +84,8 @@
                         {
                             Id = s.Id,
                             Name = s.Skill.Name,
+                            CategoryId = s.Skill.CategoryId,
+                            CategoryName = s.Skill.Category.Name,
                             State = UserSkillState.Existing
                         })
                         .ToList(),
@@ -89,6 +95,8 @@
                         {
                             Id = s.Id,
                             Name = s.Skill.Name,
+                            CategoryId = s.Skill.CategoryId,
+                            CategoryName = s.Skill.Category.Name,
                             State = UserSkillState.Existing
                         })
                         .ToList()
@@ -108,6 +116,7 @@
         {
             if (ModelState.IsValid)
             {
+                #region Personal info edit
                 var profileToBeEdited = this.Data.Users
                     .All()
                     .First(u => u.Id == this.UserProfile.Id);
@@ -119,7 +128,10 @@
                 profileToBeEdited.Email = model.Email;
                 profileToBeEdited.TownId = model.TownId;
                 profileToBeEdited.Description = model.Description;
+                #endregion
 
+                #region Skills edit
+                #region Offering skills edit
                 if (model.OfferingSkills != null)
                 {
                     foreach (var skill in model.OfferingSkills)
@@ -132,14 +144,60 @@
 
                         if (skill.State == UserSkillState.New)
                         {
-                            // TODO check:
-                            // - if skill name exists
-                            // - if user has already the skill 
+                            bool userHasTheSkill = this.Data.UserSkills
+                                .All().Any(s => s.Skill.Name == skill.Name && s.UserId == this.UserProfile.Id);
+                            if (!userHasTheSkill)
+                            {
+                                var newSkill = this.Data.Skills.All()
+                                    .FirstOrDefault(s => s.Name == skill.Name);
+                                if (newSkill == null)
+                                {
+                                    newSkill = new Skill
+                                    {
+                                        Name = skill.Name,
+                                        CategoryId = skill.CategoryId
+                                    };
+
+                                    this.Data.Skills.Add(newSkill);
+                                    this.Data.SaveChanges();
+                                }
+
+                                var newUserSkill = new UserSkill
+                                {
+                                    SkillId = newSkill.Id,
+                                    UserId = this.UserProfile.Id,
+                                    ExchangeTypeId = this.Data.ExchangeTypes.All().First(t => t.Name == "Offering").Id
+                                };
+
+                                this.Data.UserSkills.Add(newUserSkill);
+                                this.Data.SaveChanges();
+                            }
+                            else
+                            {
+                                TempData["message"] = new NotificationMessage
+                                {
+                                    Content = string.Format("You already have the skill {0}", skill.Name),
+                                    Type = NotificationMessageType.Error
+                                };
+
+                                return RedirectToAction("Edit", "Profile");
+                            }
+                        }
+
+                        if (skill.State == UserSkillState.Existing)
+                        {
+                            var userSkill = this.Data.UserSkills.All().First(s => s.Id == skill.Id).Skill;
+                            userSkill.CategoryId = skill.CategoryId;
+                            userSkill.Name = skill.Name;
+
+                            this.Data.Skills.Update(userSkill);
+                            this.Data.SaveChanges();
                         }
                     }
                 }
-                
+                #endregion
 
+                #region Seeking skills edit
                 if (model.SeekingSkills != null)
                 {
                     foreach (var skill in model.SeekingSkills)
@@ -151,13 +209,59 @@
 
                         if (skill.State == UserSkillState.New)
                         {
-                            // TODO check:
-                            // - if skill name exists
-                            // - if user has already the skill 
+                            bool userHasTheSkill = this.Data.UserSkills
+                                .All().Any(s => s.Skill.Name == skill.Name && s.UserId == this.UserProfile.Id);
+                            if (!userHasTheSkill)
+                            {
+                                var newSkill = this.Data.Skills.All()
+                                    .FirstOrDefault(s => s.Name == skill.Name);
+                                if (newSkill == null)
+                                {
+                                    newSkill = new Skill
+                                    {
+                                        Name = skill.Name,
+                                        CategoryId = skill.CategoryId
+                                    };
+
+                                    this.Data.Skills.Add(newSkill);
+                                    this.Data.SaveChanges();
+                                }
+
+                                var newUserSkill = new UserSkill
+                                {
+                                    SkillId = newSkill.Id,
+                                    UserId = this.UserProfile.Id,
+                                    ExchangeTypeId = this.Data.ExchangeTypes.All().First(t => t.Name == "Seeking").Id
+                                };
+
+                                this.Data.UserSkills.Add(newUserSkill);
+                                this.Data.SaveChanges();
+                            }
+                            else
+                            {
+                                TempData["message"] = new NotificationMessage
+                                {
+                                    Content = string.Format("You already have the skill {0}", skill.Name),
+                                    Type = NotificationMessageType.Error
+                                };
+
+                                return RedirectToAction("Edit", "Profile");
+                            }
                         }
-                    } 
+
+                        if (skill.State == UserSkillState.Existing)
+                        {
+                            var userSkill = this.Data.UserSkills.All().First(s => s.Id == skill.Id).Skill;
+                            userSkill.CategoryId = skill.CategoryId;
+                            userSkill.Name = skill.Name;
+
+                            this.Data.Skills.Update(userSkill);
+                            this.Data.SaveChanges();
+                        }
+                    }
                 }
-                
+                #endregion
+                #endregion
 
                 this.Data.Users.Update(profileToBeEdited);
                 this.Data.SaveChanges();
@@ -231,7 +335,7 @@
                 Type = NotificationMessageType.Error
             };
 
-            return this.RedirectToAction("Error", "Home", new {area = "User"});
+            return this.RedirectToAction("Error", "Home", new { area = "User" });
 
         }
 
@@ -262,7 +366,6 @@
 
                         var notification = new Notification
                         {
-
                             Content = "<strong>" + this.UserProfile.UserName + "</strong> approved your skill " +
                                 "<strong>" + this.Data.UserSkills.All().First(s => s.Id == skillId).Skill.Name + "</strong>",
                             RecieverId = userOwner.UserId
@@ -336,12 +439,11 @@
             }
         }
 
-
         public ActionResult GetTowns()
         {
             var towns = this.Data.Towns.All()
                 .Where(t => t.Id != this.UserProfile.TownId)
-                .Select(t => new TownAsOptionViewModel
+                .Select(t => new TownOptionViewModel
                 {
                     Id = t.Id,
                     Name = t.Name
@@ -349,6 +451,19 @@
                 .ToList();
 
             return this.Json(towns.AsQueryable(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCategories()
+        {
+            var categories = this.Data.SkillCategories.All()
+                .Select(c => new CategoryOptionViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToList();
+
+            return this.Json(categories.AsQueryable(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MessageForm(string recieverUsername)
@@ -379,7 +494,7 @@
             var model = new SkillEditorModel();
             if (exchangeType == "Offering")
             {
-                Session["maxIndexOfferingSkillsList"] =  (int)Session["maxIndexOfferingSkillsList"] + 1;
+                Session["maxIndexOfferingSkillsList"] = (int)Session["maxIndexOfferingSkillsList"] + 1;
                 model.SkillListIndex = (int)Session["maxIndexOfferingSkillsList"];
             }
             else if (exchangeType == "Seeking")
@@ -393,6 +508,17 @@
             }
 
             model.SkillExchangeType = exchangeType;
+            var categories = this.Data.SkillCategories
+                .All()
+                .Select(c => new CategoryOptionViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .OrderBy(c => c.Name)
+                .ToList();
+
+            model.Categories = categories;
             return this.PartialView("_SkillEditor", model);
         }
     }

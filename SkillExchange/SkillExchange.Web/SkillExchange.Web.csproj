@@ -189,6 +189,7 @@
     <Compile Include="Areas\User\Controllers\NotificationsController.cs" />
     <Compile Include="Areas\User\Controllers\ProfileController.cs" />
     <Compile Include="Areas\User\Models\CategoriesPartialViewModel.cs" />
+    <Compile Include="Areas\User\Models\CategoryOptionViewModel.cs" />
     <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\User\Models\EditProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
@@ -198,7 +199,7 @@
     <Compile Include="Areas\User\Models\NotificationMessage.cs" />
     <Compile Include="Areas\User\Models\OfferingSkillViewModel.cs" />
     <Compile Include="Areas\User\Models\SkillEditorModel.cs" />
-    <Compile Include="Areas\User\Models\TownAsOptionViewModel.cs" />
+    <Compile Include="Areas\User\Models\TownOptionViewModel.cs" />
     <Compile Include="Areas\User\Models\TownsPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
     <Compile Include="Areas\User\Models\ProfileModel.cs" />
@@ -252,7 +253,7 @@
     <Content Include="Areas\User\Views\Shared\_SkillEditor.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\add-skill-editor.js" />
-    <Content Include="Scripts\custom\populate-towns.js" />
+    <Content Include="Scripts\custom\populate-dropdowns-data.js" />
     <Content Include="Scripts\custom\remove-skill-editor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

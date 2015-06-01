@@ -20,8 +20,8 @@
                       "~/Scripts/respond.js"));
 
             // Custom scripts
-            bundles.Add(new ScriptBundle("~/bundles/populate-towns").Include(
-                      "~/Scripts/custom/populate-towns.js"));
+            bundles.Add(new ScriptBundle("~/bundles/populate-dropdowns-data").Include(
+                      "~/Scripts/custom/populate-dropdowns-data.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

@@ -1,18 +1,39 @@
-﻿@model SkillExchange.Web.Areas.User.Models.ProfileModel
+﻿@using SkillExchange.Web.Areas.User.Models
+@model SkillExchange.Web.Areas.User.Models.ProfileModel
 <main>
+    @if (TempData["message"] != null)
+    {
+        var message = (NotificationMessage)TempData["message"];
+        if (message.Type == NotificationMessageType.Success)
+        {
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @message.Content
+            </div>
+        }
+
+        if (message.Type == NotificationMessageType.Error)
+        {
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @message.Content
+            </div>
+        }
+    }
+    
     @using (Html.BeginForm(
         "Edit",
         "Profile", FormMethod.Post,
-        new { @class = "form-horizontal col-lg-10 col-lg-offset-1", role = "form" }))
+        new {@class = "form-horizontal col-lg-12", role = "form"}))
     {
         @Html.AntiForgeryToken()
         <fieldset class="col-lg-6">
             <legend class="text-center">Personal info</legend>
             <div class="well">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.FirstName, new { @for = "first-name", @class = "col-lg-4 control-label" })
+                    @Html.LabelFor(m => m.FirstName, new {@for = "first-name", @class = "col-lg-4 control-label"})
                     <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.FirstName, new { id = "first-name", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.FirstName, new {id = "first-name", @class = "form-control"})
                     </div>
                 </div>
                 <div class="form-group">
@@ -29,24 +50,24 @@
                     </div>
                 </div>*@
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @for = "email", @class = "col-lg-4 control-label" })
+                    @Html.LabelFor(m => m.Email, new {@for = "email", @class = "col-lg-4 control-label"})
                     <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Email, new { id = "email", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Email, new {id = "email", @class = "form-control"})
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Description, new { @for = "description", @class = "col-lg-4 control-label" })
+                    @Html.LabelFor(m => m.Description, new {@for = "description", @class = "col-lg-4 control-label"})
                     <div class="col-md-8">
-                        @Html.TextAreaFor(m => m.Description, new { id = "description", @class = "form-control" })
+                        @Html.TextAreaFor(m => m.Description, new {id = "description", @class = "form-control"})
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Town, new { @for = "towns", @class = "col-lg-4 control-label" })
+                    @Html.LabelFor(m => m.Town, new {@for = "towns", @class = "col-lg-4 control-label"})
                     <div class="col-md-8">
                         @Html.DropDownListFor(
                             m => m.TownId,
-                            new SelectList(new[] { new { Id = Model.TownId, Name = Model.Town }, }, "Id", "Name", 1),
-                            new { id = "towns", @class = "form-control" })
+                            new SelectList(new[] {new {Id = Model.TownId, Name = Model.Town},}, "Id", "Name", 1),
+                            new {id = "towns", @class = "form-control"})
                     </div>
                 </div>
             </div>
@@ -61,9 +82,27 @@
                         for (int skill = 0; skill < Model.OfferingSkills.Count; skill++)
                         {
                             <div class="col-lg-12 add-skill-editor">
-                                @Html.TextBoxFor(m => m.OfferingSkills[skill].Name, new { @class = "form-control col-lg-10"})
+                                <div class="col-lg-5">
+                                    @Html.TextBoxFor(
+                                        m => m.OfferingSkills[skill].Name,
+                                        new {@class = "form-control col-lg-10"})
+                                </div>
+                                <div class="col-lg-5">
+                                    @Html.DropDownListFor(
+                                        m => Model.OfferingSkills[skill].CategoryId,
+                                        new SelectList(
+                                            new[]
+                                            {
+                                                new
+                                                {
+                                                    Model.OfferingSkills[skill].CategoryId,
+                                                    Model.OfferingSkills[skill].CategoryName
+                                                },
+                                            }, "CategoryId", "CategoryName"),
+                                        new {@class = "form-control categories"})
+                                </div>
                                 @Html.HiddenFor(m => m.OfferingSkills[skill].Id)
-                                @Html.HiddenFor(m => m.OfferingSkills[skill].State, new{ @class = "state" })
+                                @Html.HiddenFor(m => m.OfferingSkills[skill].State, new {@class = "state"})
                                 <a class="col-lg-1 col-lg-offset-1 text-center btn-sm btn-primary remove-skill-btn">x</a>
                             </div>
                         }
@@ -87,9 +126,27 @@
                         for (int skill = 0; skill < Model.SeekingSkills.Count; skill++)
                         {
                             <div class="col-lg-12 add-skill-editor">
-                                @Html.TextBoxFor(m => m.SeekingSkills[skill].Name, new { @class = "form-control col-lg-10" })
+                                <div class="col-lg-5">
+                                    @Html.TextBoxFor(
+                                        m => m.SeekingSkills[skill].Name,
+                                        new { @class = "form-control col-lg-10" })
+                                </div>
+                                <div class="col-lg-5">
+                                    @Html.DropDownListFor(
+                                        m => Model.SeekingSkills[skill].CategoryId,
+                                        new SelectList(
+                                            new[]
+                                            {
+                                                new
+                                                {
+                                                    Model.SeekingSkills[skill].CategoryId,
+                                                    Model.SeekingSkills[skill].CategoryName
+                                                },
+                                            }, "CategoryId", "CategoryName"),
+                                        new { @class = "form-control categories" })
+                                </div>
                                 @Html.HiddenFor(m => m.SeekingSkills[skill].Id)
-                                @Html.HiddenFor(m => m.SeekingSkills[skill].State, new{ @class = "state" })
+                                @Html.HiddenFor(m => m.SeekingSkills[skill].State, new { @class = "state" })
                                 <a class="col-lg-1 col-lg-offset-1 text-center btn-sm btn-primary remove-skill-btn">x</a>
                             </div>
                         }
@@ -113,6 +170,6 @@
     }
 </main>
 
-@Scripts.Render("~/bundles/populate-towns")
+@Scripts.Render("~/bundles/populate-dropdowns-data")
 @Scripts.Render("~/Scripts/custom/add-skill-editor.js")
 @Scripts.Render("~/Scripts/custom/remove-skill-editor.js")

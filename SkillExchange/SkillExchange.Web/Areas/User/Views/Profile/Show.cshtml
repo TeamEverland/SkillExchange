@@ -69,7 +69,7 @@
                             using (Html.BeginForm(
                                 "Approve",
                                 "Profile",
-                                new { area = "User", skillId = offeringSkill.Id },
+                                new {area = "User", skillId = offeringSkill.Id},
                                 FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()

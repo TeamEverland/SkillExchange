@@ -1,10 +1,18 @@
 ﻿@model SkillExchange.Web.Areas.User.Models.SkillEditorModel
 
 <div class="col-lg-12 add-skill-editor">
-    @Html.TextBox(
+    <div class="col-lg-5">
+        @Html.TextBox(
         Model.SkillExchangeType + "Skills[" + Model.SkillListIndex + "].Name",
         string.Empty,
-        new { @class = "form-control col-lg-10" })
+        new { @class = "form-control" })
+    </div>
+    <div class="col-lg-5 clearfix">
+        @Html.DropDownList(
+        Model.SkillExchangeType + "Skills[" + Model.SkillListIndex + "].CategoryId",
+        new SelectList(Model.Categories, "Id", "Name"),
+        new { id = "categories", @class = "form-control" })
+    </div>
     @Html.Hidden(Model.SkillExchangeType + "Skills[" + Model.SkillListIndex + "].State",
         "New",
         new { @class = "state" })
