@@ -81,7 +81,8 @@
                         .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
-                            Name = s.Skill.Name
+                            Name = s.Skill.Name,
+                            State = UserSkillState.Existing
                         })
                         .ToList(),
                     SeekingSkills = u.Skills
@@ -89,7 +90,8 @@
                         .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
-                            Name = s.Skill.Name
+                            Name = s.Skill.Name,
+                            State = UserSkillState.Existing
                         })
                         .ToList()
                 })
@@ -106,7 +108,37 @@
         [HttpPost]
         public ActionResult Edit(ProfileModel model)
         {
-            return this.View();
+            if (ModelState.IsValid)
+            {
+                var profileToBeEdited = this.Data.Users
+                    .All()
+                    .First(u => u.Id == this.UserProfile.Id);
+
+                profileToBeEdited.FirstName = model.FirstName;
+                profileToBeEdited.LastName = model.LastName;
+                profileToBeEdited.UserName = model.Username;
+                profileToBeEdited.Email = model.Email;
+                profileToBeEdited.TownId = model.TownId;
+                profileToBeEdited.Description = model.Description;
+                this.Data.Users.Update(profileToBeEdited);
+                this.Data.SaveChanges();
+                //foreach (var skill in model.OfferingSkills)
+                //{
+                //    if (skill.State == UserSkillState.ExistingDeleted)
+                //    {
+                //        this.Data.UserSkills.Remove(skill.Id);
+                //    }
+
+                //    if (skill.State == UserSkillState.New)
+                //    {
+                //        // TODO check:
+                //        // - if skill name is existing
+                //        // - if user has the skill already
+                //    }
+                //}
+            }
+
+            return this.RedirectToAction("Index", "Profile");
         }
 
         // GET: User/Profile/Show

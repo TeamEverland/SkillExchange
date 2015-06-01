@@ -202,6 +202,7 @@
     <Compile Include="Areas\User\Models\UserProfileFullViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileSummaryViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserSkillState.cs" />
     <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
