@@ -4,7 +4,7 @@
 
     addOfferingSkillBtn.on('click', function() {
         $.ajax({
-            url: '/User/Profile/OfferingSkillEditor',
+            url: '/User/Profile/SkillEditor',
             method: 'GET',
             success: function (data) {
                 $('#no-offering-skills-info').remove();
@@ -16,7 +16,7 @@
 
     addSeekingSkillBtn.on('click', function () {
         $.ajax({
-            url: '/User/Profile/SeekingSkillEditor',
+            url: '/User/Profile/SkillEditor',
             method: 'GET',
             success: function (data) {
                 $('#no-seeking-skills-info').remove();

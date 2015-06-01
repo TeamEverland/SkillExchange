@@ -36,7 +36,7 @@
                     Description = u.Description,
                     OfferingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserOfferingSkillModel
+                        .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
                             Name = s.Skill.Name
@@ -44,7 +44,7 @@
                         .ToList(),
                     SeekingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSeekingSkillModel
+                        .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
                             Name = s.Skill.Name
@@ -75,7 +75,7 @@
                     Description = u.Description,
                     OfferingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserOfferingSkillModel()
+                        .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
                             Name = s.Skill.Name
@@ -83,7 +83,7 @@
                         .ToList(),
                     SeekingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSeekingSkillModel()
+                        .Select(s => new UserSkillViewModel
                         {
                             Id = s.Id,
                             Name = s.Skill.Name
@@ -307,14 +307,9 @@
             return this.RedirectToAction("Error", "Home");
         }
 
-        public PartialViewResult OfferingSkillEditor()
+        public PartialViewResult SkillEditor()
         {
-            return this.PartialView("EditorTemplates/UserOfferingSkillModel");
-        }
-
-        public PartialViewResult SeekingSkillEditor()
-        {
-            return this.PartialView("EditorTemplates/UserSeekingSkillModel");
+            return this.PartialView("EditorTemplates/UserSkillViewModel");
         }
     }
 }
