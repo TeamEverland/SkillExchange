@@ -42,4 +42,27 @@ textarea {
 .mark-button {
     margin-top: 2%;
 }
+
+.skill-section-title {
+    margin-bottom: 2%;
+}
+
+.add-skill-editor {
+    margin-bottom: 2%;
+}
+
+.add-skill-btn {
+    display: inline-block;
+    margin-top: 3%;
+}
+
+.add-skill-btn:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.remove-skill-btn:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
 /*User area css*/

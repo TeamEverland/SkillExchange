@@ -36,11 +36,19 @@
                     Description = u.Description,
                     OfferingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => s.Skill.Name)
+                        .Select(s => new UserOfferingSkillModel
+                        {
+                            Id = s.Id,
+                            Name = s.Skill.Name
+                        })
                         .ToList(),
                     SeekingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => s.Skill.Name)
+                        .Select(s => new UserSeekingSkillModel
+                        {
+                            Id = s.Id,
+                            Name = s.Skill.Name
+                        })
                         .ToList()
                 })
                 .First();
@@ -67,16 +75,29 @@
                     Description = u.Description,
                     OfferingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => s.Skill.Name)
+                        .Select(s => new UserOfferingSkillModel()
+                        {
+                            Id = s.Id,
+                            Name = s.Skill.Name
+                        })
                         .ToList(),
                     SeekingSkills = u.Skills
                         .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => s.Skill.Name)
+                        .Select(s => new UserSeekingSkillModel()
+                        {
+                            Id = s.Id,
+                            Name = s.Skill.Name
+                        })
                         .ToList()
                 })
                 .First();
 
             return this.View(userProfile);
+        }
+
+        public ActionResult Edit(ProfileModel model)
+        {
+            return this.View();
         }
 
         // GET: User/Profile/Show
@@ -284,6 +305,16 @@
             };
 
             return this.RedirectToAction("Error", "Home");
+        }
+
+        public PartialViewResult OfferingSkillEditor()
+        {
+            return this.PartialView("EditorTemplates/UserOfferingSkillModel");
+        }
+
+        public PartialViewResult SeekingSkillEditor()
+        {
+            return this.PartialView("EditorTemplates/UserSeekingSkillModel");
         }
     }
 }

@@ -198,9 +198,11 @@
     <Compile Include="Areas\User\Models\TownsPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\TownViewModel.cs" />
     <Compile Include="Areas\User\Models\ProfileModel.cs" />
+    <Compile Include="Areas\User\Models\UserOfferingSkillModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileFullViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileSummaryViewModel.cs" />
     <Compile Include="Areas\User\Models\UserProfileViewModel.cs" />
+    <Compile Include="Areas\User\Models\UserSeekingSkillModel.cs" />
     <Compile Include="Areas\User\Models\UserSkillViewModel.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -244,8 +246,12 @@
     <Content Include="Areas\User\Views\Shared\_Conversations.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Conversation.cshtml" />
     <Content Include="Areas\User\Views\Shared\_MessageForm.cshtml" />
+    <Content Include="Areas\User\Views\Shared\EditorTemplates\UserSeekingSkillModel.cshtml" />
+    <Content Include="Areas\User\Views\Shared\EditorTemplates\UserOfferingSkillModel.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\populate-towns.js" />
+    <Content Include="Scripts\custom\remove-skill-editor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

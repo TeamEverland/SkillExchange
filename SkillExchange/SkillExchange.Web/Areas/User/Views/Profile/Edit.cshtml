@@ -1,39 +1,108 @@
 ﻿@model SkillExchange.Web.Areas.User.Models.ProfileModel
 <main>
-    <form class="form-horizontal col-lg-8 col-lg-offset-2">
-        <fieldset>
-            <legend>Legend</legend>
-            <div class="form-group">
-                @Html.LabelFor(m => m.FirstName, new {@for = "first-name", @class = "col-lg-2 control-label"})
-                @Html.TextBoxFor(m => m.FirstName, new {id = "first-name", @class = "form-control"})
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.LastName, new {@for = "last-name", @class = "col-lg-2 control-label"})
-                @Html.TextBoxFor(m => m.LastName, new {id = "last-name", @class = "form-control"})
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Username, new {@for = "username", @class = "col-lg-2 control-label"})
-                @Html.TextBoxFor(m => m.Username, new {id = "username", @class = "form-control"})
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Description, new {@for = "description", @class = "col-lg-2 control-label"})
-                @Html.TextAreaFor(m => m.Description, new {id = "description", @class = "form-control"})
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Town, new { @for = "towns", @class = "col-lg-2 control-label" })
-                @Html.DropDownListFor(
-                    m => m.TownId,
-                    new SelectList(new[] {new {Id = Model.TownId, Name = Model.Town},}, "Id", "Name", 1),
-                    new {id = "towns", @class = "form-control"})
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="reset" class="btn btn-default">Cancel</button>
+    @using (Html.BeginForm(
+        "Edit",
+        "Profile", FormMethod.Post,
+        new { @class = "form-horizontal col-lg-10 col-lg-offset-1", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <fieldset class="col-lg-6">
+            <legend class="text-center">Personal info</legend>
+            <div class="well">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FirstName, new { @for = "first-name", @class = "col-lg-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.FirstName, new { id = "first-name", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LastName, new { @for = "last-name", @class = "col-lg-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.LastName, new { id = "last-name", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Username, new {@for = "username", @class = "col-lg-4 control-label"})
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Username, new {id = "username", @class = "form-control"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @for = "email", @class = "col-lg-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Email, new { id = "email", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { @for = "description", @class = "col-lg-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextAreaFor(m => m.Description, new { id = "description", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Town, new { @for = "towns", @class = "col-lg-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(
+                            m => m.TownId,
+                            new SelectList(new[] { new { Id = Model.TownId, Name = Model.Town }, }, "Id", "Name", 1),
+                            new { id = "towns", @class = "form-control" })
+                    </div>
                 </div>
             </div>
         </fieldset>
-    </form>
+        <fieldset class="col-lg-6">
+            <legend>Skills</legend>
+            <div class="well clearfix">
+                <div id="offering-skills">
+                    <div class="text-warning text-center skill-section-title">Offering</div>
+                    @if (Model.OfferingSkills.Any())
+                    {
+                        foreach (var offeringSkill in Model.OfferingSkills)
+                        {
+                            @Html.EditorFor(m => offeringSkill)
+                        }
+                    }
+                    else
+                    {
+                        <div id="no-offering-skills-info">
+                            <p class=" text-primary text-center">
+                                No infomation for offering skills
+                            </p>
+                        </div>
+                    }
+                </div>
+                <a class="btn-sm btn-success add-skill-btn" id="add-offering-skill">+ Add skill</a>
+            </div>
+            <div class="well clearfix">
+                <div id="seeking-skills">
+                    <div class="text-warning text-center skill-section-title">Seeking</div>
+                    @if (Model.SeekingSkills.Any())
+                    {
+                        foreach (var seekingSkill in Model.SeekingSkills)
+                        {
+                            @Html.EditorFor(m => seekingSkill)
+                        }
+                    }
+                    else
+                    {
+                        <div id="no-seeking-skills-info">
+                            <p class="text-primary text-center">No infomation fo seeking skills</p>
+                        </div>
+                    }
+                </div>
+                <a class="btn-sm btn-success add-skill-btn" id="add-seeking-skill">+ Add skill</a>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <div class="col-lg-8 col-lg-offset-4">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="reset" class="btn btn-default">Cancel</button>
+            </div>
+        </div>
+    }
+    <form class=""></form>
 </main>
 
 @Scripts.Render("~/bundles/populate-towns")
+@Scripts.Render("~/Scripts/custom/add-skill-editor.js")
+@Scripts.Render("~/Scripts/custom/remove-skill-editor.js")

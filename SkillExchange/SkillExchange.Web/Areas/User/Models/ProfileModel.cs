@@ -18,8 +18,8 @@
 
         public string Description { get; set; }
 
-        public ICollection<string> OfferingSkills { get; set; }
+        public ICollection<UserOfferingSkillModel> OfferingSkills { get; set; }
 
-        public ICollection<string> SeekingSkills { get; set; } 
+        public ICollection<UserSeekingSkillModel> SeekingSkills { get; set; } 
     }
 }
