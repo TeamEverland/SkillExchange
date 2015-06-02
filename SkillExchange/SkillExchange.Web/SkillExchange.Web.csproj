@@ -270,6 +270,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\autocomplete.js" />
+    <Content Include="Scripts\custom\insert-towns-register.js" />
     <Content Include="Scripts\custom\populate-dropdowns-data.js" />
     <Content Include="Scripts\custom\remove-skill-editor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

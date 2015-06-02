@@ -10,6 +10,7 @@
     using Microsoft.Owin.Security;
     using Models;
     using SkillExchange.Models;
+    using SkillExchange.Web.Areas.User.Models;
 
     [Authorize]
     public class AccountController : BaseController
@@ -135,6 +136,23 @@
         }
 
         //
+        // GET: /Account/GetTowns
+        [AllowAnonymous]
+        public ActionResult GetTowns()
+        {
+            var towns = this.Data.Towns.All()
+                .OrderBy(t => t.Name)
+                .Select(t => new TownOptionViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name
+                })
+                .ToList();
+
+            return this.Json(towns.AsQueryable(), JsonRequestBehavior.AllowGet);
+        }
+
+        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -148,7 +166,8 @@
                     UserName = model.Username,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    Email = model.Email
+                    Email = model.Email,
+                    TownId = model.TownId
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -163,6 +182,8 @@
 
             return View(model);
         }
+
+
 
         //
         // GET: /Account/ConfirmEmail
