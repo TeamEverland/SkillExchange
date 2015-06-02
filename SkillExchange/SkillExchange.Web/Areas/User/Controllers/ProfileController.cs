@@ -466,6 +466,15 @@
             return this.Json(categories.AsQueryable(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetSkills()
+        {
+            var skills = this.Data.Skills.All()
+                .Select(s => new { s.Name })
+                .ToList();
+
+            return this.Json(skills.AsQueryable(), JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult MessageForm(string recieverUsername)
         {
             var reciever = this.Data.Users.All().FirstOrDefault(u => u.UserName == recieverUsername);

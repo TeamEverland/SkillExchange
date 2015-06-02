@@ -5,36 +5,76 @@
         <h3 class="text-center text-warning">@Model.FirstName @Model.LastName's profile</h3>
     </div>
     <div>
-        <div class="panel panel-info col-lg-6 col-lg-offset-3 no-padding">
+        <div class="panel panel-info col-lg-5 pull-left no-padding">
             <div class="panel-heading">
                 <h3 class="panel-title">Personal info</h3>
             </div>
             <div class="panel-body">
                 <div><span class="text-primary">Username </span>@Model.Username</div>
                 <div><span class="text-primary">Town </span>@Model.Town</div>
-            </div>
-        </div>
-        <div class="panel panel-info col-lg-6 col-lg-offset-3 no-padding">
-            <div class="panel-heading">
-                <h3 class="panel-title">Contact info</h3>
-            </div>
-            <div class="panel-body">
                 <div><span class="text-primary">Email </span>@Model.Email</div>
-            </div>
-        </div>
-        <div class="panel panel-info col-lg-6 col-lg-offset-3 no-padding">
-            <div class="panel-heading">
-                <h3 class="panel-title">Description</h3>
-            </div>
-            <div class="panel-body">
                 @if (Model.Description != null)
                 {
-                    @Model.Description
+                    <div><span class="text-primary">Description </span>@Model.Description</div>
                 }
                 else
                 {
-                    <span>No description yet</span>
+                    <div><span class="text-primary">Description </span>No description yet</div>
                 }
+            </div>
+        </div>
+        <div class="panel panel-info col-lg-6 pull-right no-padding">
+            <div class="panel-heading">
+                <h3 class="panel-title">Skills</h3>
+            </div>
+            <div class="panel-body">
+                <div class="well no-padding">
+                    <div class="text-warning text-center skill-section-title">Offering</div>
+                    @if (Model.OfferingSkills.Any())
+                    {
+                        <ul class="breadcrumb">
+                            @for (int skill = 0; skill < Model.OfferingSkills.Count; skill++)
+                            {
+                                <li>
+                                    <span class="text-primary">@Model.OfferingSkills[skill].Name </span>
+                                    <span class="label label-info">@Model.OfferingSkills[skill].CategoryName</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div>
+                            <p class=" text-primary text-center">
+                                No infomation for offering skills
+                            </p>
+                        </div>
+                    }
+                </div>
+
+                <div class="well no-padding">
+                    <div class="text-warning text-center skill-section-title">Seeking</div>
+                    @if (Model.SeekingSkills.Any())
+                    {
+                        <ul class="breadcrumb">
+                            @for (int skill = 0; skill < Model.SeekingSkills.Count; skill++)
+                            {
+                                <li>
+                                    <span class="text-primary">@Model.SeekingSkills[skill].Name </span>
+                                    <span class="label label-info">@Model.SeekingSkills[skill].CategoryName</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div>
+                            <p class=" text-primary text-center">
+                                No infomation for seeking skills
+                            </p>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
