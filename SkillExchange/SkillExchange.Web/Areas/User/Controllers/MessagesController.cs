@@ -12,8 +12,9 @@
 
     public class MessagesController : BaseController
     {
-        public MessagesController(ISkillExchangeData data) : base(data)
-        {  
+        public MessagesController(ISkillExchangeData data)
+            : base(data)
+        {
         }
 
         // GET: User/Messages/Index
@@ -44,7 +45,7 @@
 
             var reciever = this.Data.Users.All().First(u => u.Id == message.RecieverId).UserName;
 
-            return this.RedirectToAction("Show", "Profile", new{ username = reciever });
+            return this.RedirectToAction("Show", "Profile", new { username = reciever });
         }
 
         [ChildActionOnly]

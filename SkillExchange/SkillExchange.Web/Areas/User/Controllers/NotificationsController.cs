@@ -5,6 +5,8 @@
 
     using Web.Controllers;
     using Data.Data;
+    using Hubs;
+    using Microsoft.AspNet.SignalR;
     using Models;
 
 
@@ -12,12 +14,12 @@
     {
         public NotificationsController(ISkillExchangeData data)
             : base(data)
-        {       
+        {
         }
 
         //
         // GET: User/Notifications/Index
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         [HttpGet]
         public ActionResult Index()
         {
@@ -25,13 +27,13 @@
                 .All()
                 .Where(n => n.Reciever.Id == this.UserProfile.Id)
                 .Select(NotificationViewModel.ViewModel)
-                .OrderByDescending(n => n.Date);
+                .OrderByDescending(n => n.IsRead);
 
             return this.View(notifications);
         }
 
         // POST: User/Notifications/MarkAsRead
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult MarkAsRead(int notificationId)
@@ -57,7 +59,10 @@
                 // TODO Add error in temp data
             }
 
-            return this.RedirectToAction("Index", new {controller = "Notifications", area = "User"});
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
+            hubContext.Clients.All.estimateNotificationsCountForClient(this.UserProfile.UserName);
+
+            return this.RedirectToAction("Index", new { controller = "Notifications", area = "User" });
         }
     }
 }

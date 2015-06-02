@@ -29,6 +29,10 @@
             bundles.Add(new ScriptBundle("~/bundles/autocomplete").Include(
                      "~/Scripts/custom/autocomplete.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/notifications").Include(
+                     "~/Scripts/custom/notifications.js"));
+
+            // Styles
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

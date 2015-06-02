@@ -8,7 +8,7 @@
 
     public class BaseHub : Hub
     {
-        protected ConnectionMapping<string> usersConnections =
+        protected static readonly ConnectionMapping<string> usersConnections =
             new ConnectionMapping<string>();
 
         protected ISkillExchangeData data =

@@ -215,7 +215,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\ApprovesHub.cs" />
+    <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\BaseHub.cs" />
     <Compile Include="Hubs\ConnectionMapping.cs" />
     <Compile Include="Hubs\MessagesHub.cs" />
@@ -271,6 +271,7 @@
     <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\autocomplete.js" />
     <Content Include="Scripts\custom\insert-towns-register.js" />
+    <Content Include="Scripts\custom\notifications.js" />
     <Content Include="Scripts\custom\populate-dropdowns-data.js" />
     <Content Include="Scripts\custom\remove-skill-editor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

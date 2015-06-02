@@ -26,8 +26,7 @@
 
         public string Description { get; set; }
 
-        // TODO add Town in the registration form and make this property Required
-        //[Required]
+        [Required]
         public int? TownId { get; set; }
 
         public virtual Town Town { get; set; }

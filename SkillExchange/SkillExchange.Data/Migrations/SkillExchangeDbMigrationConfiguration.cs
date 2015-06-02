@@ -274,7 +274,8 @@
                     FirstName = "Admin",
                     LastName = "Admin",
                     UserName = "administrator",
-                    Email = "admin@abv.bg"
+                    Email = "admin@abv.bg",
+                    TownId = 1
                 };
 
                 var adminPassword = "123456";
