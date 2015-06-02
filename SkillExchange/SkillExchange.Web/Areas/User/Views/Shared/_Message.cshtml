@@ -1,0 +1,7 @@
+﻿@model SkillExchange.Web.Areas.User.Models.MessageViewModel
+
+<div class="message text-center col-lg-8 col-lg-offset-2">
+    <span class="text-warning">@Model.SenderName : </span>@Model.Content
+    <span class="text-muted">at @Model.Date.ToLongDateString()</span>
+</div>
+

@@ -49,24 +49,28 @@
         // POST: User/Messages/SendAsync
         [HttpPost]
         [Authorize]
-        public ActionResult SendAsync(MessageInputModel message)
+        public PartialViewResult SendAsync(MessageInputModel message)
         {
+            Message newMessage = new Message();
             if (ModelState.IsValid)
             {
-                this.Data.Messages.Add(
-                new Message
-                {
-                    RecieverId = message.RecieverId,
-                    SenderId = this.UserProfile.Id,
-                    Content = message.Content
-                });
+
+                newMessage.RecieverId = message.RecieverId;
+                newMessage.SenderId = this.UserProfile.Id;
+                newMessage.Content = message.Content;
+
+                this.Data.Messages.Add(newMessage);
 
                 this.Data.SaveChanges();
             }
 
-            var reciever = this.Data.Users.All().First(u => u.Id == message.RecieverId).UserName;
+            var messageSent = this.Data.Messages
+                .All()
+                .Where(m => m.Id == newMessage.Id)
+                .Select(MessageViewModel.ViewModel)
+                .First();
 
-            return this.Content("Show");
+            return this.PartialView("_Message", messageSent);
         }
 
         [ChildActionOnly]
@@ -102,14 +106,7 @@
                         m.SenderId == this.UserProfile.Id &&
                         m.RecieverId == interlocutor.Id)
                 .OrderBy(m => m.Date)
-                .Select(m => new MessageViewModel
-                {
-                    Date = m.Date,
-                    IsRead = m.IsRead,
-                    SenderId = m.SenderId,
-                    SenderName = m.Sender.UserName,
-                    Content = m.Content
-                })
+                .Select(MessageViewModel.ViewModel)
                 .ToList();
 
                 var viewModel = new ConversationFullViewModel

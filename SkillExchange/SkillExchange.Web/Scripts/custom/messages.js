@@ -12,3 +12,7 @@
         });
     });
 });
+
+function clearInput() {
+    $('#message').val('');
+}

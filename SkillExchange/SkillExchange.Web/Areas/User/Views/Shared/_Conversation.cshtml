@@ -1,13 +1,14 @@
 ﻿@model  SkillExchange.Web.Areas.User.Models.ConversationFullViewModel
 
-    <div id="conversation-messages"></div>
-    @foreach (var message in Model.Messages)
-    {
-        <div class="message text-center col-lg-8 col-lg-offset-2">
-           <span class="text-warning">@message.SenderName : </span>@message.Content
-           <span class="text-muted">at @message.Date.ToLongDateString()</span>
-        </div>
-    }
+    <div id="conversation-messages">
+        @foreach (var message in Model.Messages)
+        {
+            <div class="message text-center col-lg-8 col-lg-offset-2">
+                <span class="text-warning">@message.SenderName : </span>@message.Content
+                <span class="text-muted">at @message.Date.ToLongDateString()</span>
+            </div>
+        }
+    </div>
 
     <div class="col-lg-12">
         @using (Ajax.BeginForm(
@@ -21,7 +22,8 @@
         {
             HttpMethod = "POST",
             UpdateTargetId = "conversation-messages",
-            InsertionMode = InsertionMode.ReplaceWith
+            InsertionMode = InsertionMode.InsertAfter,
+            OnSuccess = "clearInput"
         },
         new
         {
@@ -34,7 +36,7 @@
                 <div class="form-group text-center">
                     <div class="col-lg-10 col-lg-offset-1 form-inline">
                         <input type="hidden" name="RecieverId" value="@Model.InterlocutorId" />
-                        @Html.TextArea("Content", new { cols = "100", rows = "4", @class = "form-control", id = "textArea" })
+                        @Html.TextArea("Content", new { cols = "100", rows = "4", @class = "form-control", id = "message" })
                     </div>
                 </div>
                 <div class="form-group">
