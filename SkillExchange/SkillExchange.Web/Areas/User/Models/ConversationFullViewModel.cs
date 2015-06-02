@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class ConversationViewModel
+    public class ConversationFullViewModel
     {
         public string InterlocutorName { get; set; }
 

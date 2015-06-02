@@ -71,4 +71,14 @@ textarea {
     max-height: 150px;
     overflow: auto
 }
+
+.send-message-btn {
+    margin-top: 2%
+}
+
+.conversation-summary:hover {
+    cursor: pointer;
+    opacity: 0.9;
+
+}
 /*User area css*/

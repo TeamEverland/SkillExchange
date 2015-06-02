@@ -1,5 +1,6 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
+    using System.EnterpriseServices;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -53,12 +54,13 @@
         {
             var conversations = this.Data.Messages
                 .All()
+                .Where(m => m.RecieverId == this.UserProfile.Id)
                 .OrderByDescending(m => m.Date)
-                .DistinctBy(m => m.Sender.UserName)
-                .Select(m => new
+                .GroupBy(m => m.Sender.UserName)
+                .Select(m => new ConversationSummaryViewModel
                 {
-                    m.Date,
-                    m.Sender.UserName
+                    InterlocutorName = m.Key,
+                    HasNewMessages = m.Any(x => !x.IsRead)
                 });
 
             return this.PartialView("_Conversations", conversations);

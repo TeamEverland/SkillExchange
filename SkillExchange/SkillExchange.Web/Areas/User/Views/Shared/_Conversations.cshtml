@@ -1,2 +1,23 @@
-﻿
+﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.ConversationSummaryViewModel>
+           
+@if (Model.Any())
+{
+    <div class="well">
+        <div>
+            <p class="text-warning text-center">Conversations</p>
+        </div>
+        <div class="list-group">
+            @foreach (var conversation in Model)
+            {
+                @Html.DisplayFor(m => conversation)
+            }
+        </div>
+    </div>
+}        
+else
+{
+    <div>
+        <p class="text-primary">No conversations yet</p>
+    </div>
+}
 
