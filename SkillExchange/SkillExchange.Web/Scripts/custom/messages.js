@@ -1,28 +1,14 @@
-﻿var notifier;
-$(document).ready(function () {
-    $.connection.messagesHub.client.estimateMessagesCount = function () {
-        notifier.server.estimateMessagesCount();
-    };
+﻿$(document).ready(function () {
+    var $conversationField = $('#conversation');
 
-    $.connection.messagesHub.client.estimateMessagesCountForClient = function (client) {
-        notifier.server.estimateMessagesCountForClient(client);
-    };
-
-    $.connection.messagesHub.client.appendMessagesCount = function (messagesCount) {
-        $('#messages-count').text(messagesCount);
-    };
-
-    $.connection.messagesHub.client.appendNewMessages = function (newMessages) {
+    $('.conversation-summary').on('click', function() {
+        var username = $(this).text().trim();
         $.ajax({
-            url: '/User/Notifications/Messages',
+            url: '/User/Messages/Conversation',
             method: 'POST',
-            data: newMessages,
-            success: function (data) { $('#messages-field').prepend(data); }
+            data: { interlocutorName: username }
+        }).success(function(data) {
+            $conversationField.replaceWith(data);
         });
-    };
-
-    $.connection.hub.start().done(function() {
-        notifier = $.connection.messagesHub;
-        notifier.client.estimateMessagesCount();
     });
 });

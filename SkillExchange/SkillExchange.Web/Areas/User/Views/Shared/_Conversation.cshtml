@@ -1,2 +1,48 @@
-﻿
+﻿@model  SkillExchange.Web.Areas.User.Models.ConversationFullViewModel
+
+    <div id="conversation-messages"></div>
+    @foreach (var message in Model.Messages)
+    {
+        <div class="message text-center col-lg-8 col-lg-offset-2">
+           <span class="text-warning">@message.SenderName : </span>@message.Content
+           <span class="text-muted">at @message.Date.ToLongDateString()</span>
+        </div>
+    }
+
+    <div class="col-lg-12">
+        @using (Ajax.BeginForm(
+        "SendAsync",
+        new
+        {
+            controller = "Messages",
+            area = "User"
+        },
+        new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "conversation-messages",
+            InsertionMode = InsertionMode.ReplaceWith
+        },
+        new
+        {
+            id = "messageForm",
+            @class = ""
+        }))
+        {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <div class="form-group text-center">
+                    <div class="col-lg-10 col-lg-offset-1 form-inline">
+                        <input type="hidden" name="RecieverId" value="@Model.InterlocutorId" />
+                        @Html.TextArea("Content", new { cols = "100", rows = "4", @class = "form-control", id = "textArea" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1 text-center send-message-btn">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
 

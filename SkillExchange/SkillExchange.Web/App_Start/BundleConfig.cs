@@ -32,8 +32,11 @@
             bundles.Add(new ScriptBundle("~/bundles/notifications").Include(
                      "~/Scripts/custom/notifications.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/messages-notifications").Include(
+                     "~/Scripts/custom/messages-notifications.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/messages").Include(
-                     "~/Scripts/custom/messages.js"));
+                    "~/Scripts/custom/messages.js"));
 
             // Styles
             bundles.Add(new StyleBundle("~/Content/css").Include(

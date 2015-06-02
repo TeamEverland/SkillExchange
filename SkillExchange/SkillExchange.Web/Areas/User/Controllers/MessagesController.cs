@@ -1,11 +1,8 @@
 ﻿namespace SkillExchange.Web.Areas.User.Controllers
 {
-    using System.EnterpriseServices;
     using System.Linq;
     using System.Web.Mvc;
-
-    using Microsoft.Ajax.Utilities;
-
+    using System.Web.Routing;
     using Data.Data;
     using Models;
     using SkillExchange.Models;
@@ -49,6 +46,29 @@
             return this.RedirectToAction("Show", "Profile", new { username = reciever });
         }
 
+        // POST: User/Messages/SendAsync
+        [HttpPost]
+        [Authorize]
+        public ActionResult SendAsync(MessageInputModel message)
+        {
+            if (ModelState.IsValid)
+            {
+                this.Data.Messages.Add(
+                new Message
+                {
+                    RecieverId = message.RecieverId,
+                    SenderId = this.UserProfile.Id,
+                    Content = message.Content
+                });
+
+                this.Data.SaveChanges();
+            }
+
+            var reciever = this.Data.Users.All().First(u => u.Id == message.RecieverId).UserName;
+
+            return this.Content("Show");
+        }
+
         [ChildActionOnly]
         public PartialViewResult Conversations()
         {
@@ -66,10 +86,50 @@
             return this.PartialView("_Conversations", conversations);
         }
 
-        [ChildActionOnly]
-        public PartialViewResult Conversation(string username = null)
+        public ActionResult Conversation(string interlocutorName)
         {
-            return this.PartialView("_Conversation");
+            var interlocutor = this.Data.Users
+                .All()
+                .FirstOrDefault(u => u.UserName == interlocutorName);
+
+            if (interlocutor != null)
+            {
+                var conversationMessages = this.Data.Messages
+                .All()
+                .Where(
+                    m => (m.SenderId == interlocutor.Id &&
+                        m.RecieverId == this.UserProfile.Id) ||
+                        m.SenderId == this.UserProfile.Id &&
+                        m.RecieverId == interlocutor.Id)
+                .OrderBy(m => m.Date)
+                .Select(m => new MessageViewModel
+                {
+                    Date = m.Date,
+                    IsRead = m.IsRead,
+                    SenderId = m.SenderId,
+                    SenderName = m.Sender.UserName,
+                    Content = m.Content
+                })
+                .ToList();
+
+                var viewModel = new ConversationFullViewModel
+                {
+                    InterlocutorId = interlocutor.Id,
+                    Messages = conversationMessages
+                };
+
+                return this.PartialView("_Conversation", viewModel);
+            }
+            else
+            {
+                TempData["message"] = new NotificationMessage
+                {
+                    Content = "Sorry, message reciever not found",
+                    Type = NotificationMessageType.Error
+                };
+
+                return this.RedirectToAction("Error", "Home", new {area = "User"});
+            } 
         }
     }
 }

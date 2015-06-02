@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SkillExchange.Web.Areas.User.Models
+﻿namespace SkillExchange.Web.Areas.User.Models
 {
+    using System;
+
     public class MessageViewModel
     {
         public int Id { get; set; }
@@ -13,7 +10,7 @@ namespace SkillExchange.Web.Areas.User.Models
 
         public DateTime Date { get; set; }
 
-        public int SenderId { get; set; }
+        public string SenderId { get; set; }
 
         public string SenderName { get; set; }
 

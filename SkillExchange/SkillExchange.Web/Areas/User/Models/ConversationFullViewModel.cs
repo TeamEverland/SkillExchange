@@ -4,7 +4,7 @@
 
     public class ConversationFullViewModel
     {
-        public string InterlocutorName { get; set; }
+        public string InterlocutorId { get; set; }
 
         public ICollection<MessageViewModel> Messages { get; set; } 
     }

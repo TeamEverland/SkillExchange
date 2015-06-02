@@ -1,7 +1,16 @@
-﻿<aside class="col-lg-3">
+﻿@model SkillExchange.Web.Areas.User.Models.MessageInputModel
+
+<aside class="col-lg-3">
     @Html.Action("Conversations")
 </aside>
-<main class="col-lg-8 col-lg-offset-1">    
-    @*@Html.Action("CurrentConversation")*@
+<main class="col-lg-8 col-lg-offset-1 well">
+    <div id="conversation" class="text-center">
+        <p class="text-warning">No conversation selected</p>
+    </div>
 </main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/messages")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+}
 
