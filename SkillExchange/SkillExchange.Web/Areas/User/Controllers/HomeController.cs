@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Web.Mvc;
     using Data.Data;
+    using Microsoft.Owin.Helpers;
     using Models;
     using SkillExchange.Models;
     using Web.Controllers;
@@ -69,6 +70,44 @@
             };
 
             return this.View(viewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Search(string searchSkill)
+        {
+            if (!string.IsNullOrEmpty(searchSkill))
+            {
+                var users = this.Data.Users
+                .All()
+                .Where(u => u.Skills.Select(s => s.Skill.Name).Contains(searchSkill))
+                .Select(u => new UserProfileSummaryViewModel
+                {
+                    Username = u.UserName,
+                    Offering = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Offering")
+                        .Select(s => new UserSkillViewModel { Id = s.SkillId, Name = s.Skill.Name }),
+                    Seeking = u.Skills
+                        .Where(s => s.ExchangeType.Name == "Seeking")
+                        .Select(s => new UserSkillViewModel { Id = s.Id, Name = s.Skill.Name })
+                })
+                .ToList();
+
+                TempData["searchSkill"] = searchSkill;
+
+                return this.View(users);
+            }
+            else
+            {
+                TempData["message"] = new NotificationMessage
+                {
+                    Content = "Please search for non-empty skills",
+                    Type = NotificationMessageType.Error
+                };
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
 
         [ChildActionOnly]

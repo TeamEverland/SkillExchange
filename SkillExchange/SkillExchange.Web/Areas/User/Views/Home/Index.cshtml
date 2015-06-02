@@ -1,6 +1,24 @@
-﻿@model SkillExchange.Web.Areas.User.Models.HomeIndexPageViewModel
-@{
-    ViewBag.Title = "Home";
+﻿@using SkillExchange.Web.Areas.User.Models
+@model SkillExchange.Web.Areas.User.Models.HomeIndexPageViewModel
+
+@if (TempData["message"] != null)
+{
+    var message = (NotificationMessage)TempData["message"];
+    if (message.Type == NotificationMessageType.Success)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            @message.Content
+        </div>
+    }
+
+    if (message.Type == NotificationMessageType.Error)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            @message.Content
+        </div>
+    }
 }
 
 <div class="col-lg-2 no-padding">

@@ -266,6 +266,7 @@
     <Content Include="Areas\User\Views\Shared\_Conversation.cshtml" />
     <Content Include="Areas\User\Views\Shared\_MessageForm.cshtml" />
     <Content Include="Areas\User\Views\Shared\_SkillEditor.cshtml" />
+    <Content Include="Areas\User\Views\Home\Search.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\autocomplete.js" />

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<SkillExchange.Web.Areas.User.Models.UserProfileSummaryViewModel>
+
+<main class="col-lg-8 col-lg-offset-2">
+    @if (Model.Any())
+    {
+        <div class="page-header text-center no-top-margin">
+            <h2 class="text-primary no-top-margin">Search results for @TempData["searchSkill"]</h2>
+        </div>
+        foreach (var user in Model)
+        {
+            <div class="col-lg-4">@Html.DisplayFor(u => user)</div>
+        }
+    }
+    else
+    {
+        <div>
+            <h1 class="text-danger text-center">
+                Sorry, no search results for @TempData["searchSkill"]
+            </h1>
+        </div>
+    }
+</main>
+

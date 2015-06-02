@@ -65,4 +65,10 @@ textarea {
     text-decoration: none;
     cursor: pointer;
 }
+
+.user-summary-profile {
+    min-height: 150px;
+    max-height: 150px;
+    overflow: auto
+}
 /*User area css*/

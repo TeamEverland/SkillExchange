@@ -1,7 +1,6 @@
 ﻿@model SkillExchange.Web.Areas.User.Models.UserProfileSummaryViewModel
 
-
-<div class="panel panel-warning">
+<div class="panel panel-warning user-summary-profile">
     <div class="panel-heading">
         <h3 class="panel-title text-center">
             @Html.ActionLink(
@@ -14,22 +13,29 @@
         </h3>
     </div>
     <div class="panel-body">
-        @if (Model.Offering.Any())
+        @if (Model.Offering.Any() || Model.Seeking.Any())
         {
-            <span class="text-primary">Offering: </span>
-            foreach (var skill in Model.Offering)
+            if (Model.Offering.Any())
             {
-                <span><a>@skill.Name</a></span>
+                <span class="text-primary">Offering: </span>
+                foreach (var skill in Model.Offering)
+                {
+                    <span><a>@skill.Name</a></span>
+                }
+            }
+
+            if (Model.Seeking.Any())
+            {
+                <span class="text-primary">Seeking: </span>
+                foreach (var skill in Model.Seeking)
+                {
+                    <span><a>@skill.Name</a></span>
+                }
             }
         }
-
-        @if (Model.Seeking.Any())
+        else
         {
-            <span class="text-primary">Seeking: </span>
-            foreach (var skill in Model.Seeking)
-            {
-                <span><a>@skill.Name</a></span>
-            }
+            <div class="text-center text-muted">No information for skills yet</div>
         }
     </div>
 </div>
