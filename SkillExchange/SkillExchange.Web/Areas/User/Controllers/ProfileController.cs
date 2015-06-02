@@ -367,6 +367,13 @@
             }
         }
 
+        //
+        // POST: User/Profile/LoggedUserGetUsername
+        public ActionResult LoggedUserGetUsername()
+        {
+            return this.Content(this.UserProfile.UserName);
+        }
+
         #region Data loading actions
         public ActionResult GetTowns()
         {

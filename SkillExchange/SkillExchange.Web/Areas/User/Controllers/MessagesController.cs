@@ -4,6 +4,8 @@
     using System.Web.Mvc;
     using System.Web.Routing;
     using Data.Data;
+    using Hubs;
+    using Microsoft.AspNet.SignalR;
     using Models;
     using SkillExchange.Models;
     using Web.Controllers;
@@ -16,7 +18,7 @@
         }
 
         // GET: User/Messages/Index
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         [HttpGet]
         public ActionResult Index()
         {
@@ -25,7 +27,7 @@
 
         // POST: User/Messages/Send
         [HttpPost]
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public ActionResult Send(MessageInputModel message)
         {
             if (ModelState.IsValid)
@@ -42,13 +44,15 @@
             }
 
             var reciever = this.Data.Users.All().First(u => u.Id == message.RecieverId).UserName;
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MessagesHub>();
+            hubContext.Clients.All.estimateMessagesCountForClient(reciever);
 
-            return this.RedirectToAction("Show", "Profile", new { username = reciever });
+            return this.RedirectToAction("Index", "Messages", new { area = "User" });
         }
 
         // POST: User/Messages/SendAsync
         [HttpPost]
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public PartialViewResult SendAsync(MessageInputModel message)
         {
             Message newMessage = new Message();
@@ -69,6 +73,10 @@
                 .Where(m => m.Id == newMessage.Id)
                 .Select(MessageViewModel.ViewModel)
                 .First();
+
+            var reciever = this.Data.Users.Find(message.RecieverId);
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MessagesHub>();
+            hubContext.Clients.All.estimateMessagesCountForClient(reciever.UserName);
 
             return this.PartialView("_Message", messageSent);
         }
