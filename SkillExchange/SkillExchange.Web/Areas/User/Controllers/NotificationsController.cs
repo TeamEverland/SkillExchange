@@ -27,7 +27,8 @@
                 .All()
                 .Where(n => n.Reciever.Id == this.UserProfile.Id)
                 .Select(NotificationViewModel.ViewModel)
-                .OrderByDescending(n => n.IsRead);
+                .OrderByDescending(n => n.Date)
+                .ThenBy(n => n.IsRead);
 
             return this.View(notifications);
         }

@@ -191,9 +191,11 @@
     <Compile Include="Areas\User\Models\CategoriesPartialViewModel.cs" />
     <Compile Include="Areas\User\Models\CategoryOptionViewModel.cs" />
     <Compile Include="Areas\User\Models\CategoryViewModel.cs" />
+    <Compile Include="Areas\User\Models\ConversationViewModel.cs" />
     <Compile Include="Areas\User\Models\EditProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
     <Compile Include="Areas\User\Models\MessageInputModel.cs" />
+    <Compile Include="Areas\User\Models\MessageViewModel.cs" />
     <Compile Include="Areas\User\Models\NotificationMessageType.cs" />
     <Compile Include="Areas\User\Models\NotificationViewModel.cs" />
     <Compile Include="Areas\User\Models\NotificationMessage.cs" />
@@ -271,6 +273,7 @@
     <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\autocomplete.js" />
     <Content Include="Scripts\custom\insert-towns-register.js" />
+    <Content Include="Scripts\custom\messages.js" />
     <Content Include="Scripts\custom\notifications.js" />
     <Content Include="Scripts\custom\populate-dropdowns-data.js" />
     <Content Include="Scripts\custom\remove-skill-editor.js" />
