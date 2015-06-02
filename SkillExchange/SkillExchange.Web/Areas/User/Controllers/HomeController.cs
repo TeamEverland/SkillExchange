@@ -3,11 +3,12 @@
     using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
+
+    using Web.Controllers;
     using Data.Data;
-    using Microsoft.Owin.Helpers;
     using Models;
     using SkillExchange.Models;
-    using Web.Controllers;
+
 
     [Authorize]
     public class HomeController : BaseController
@@ -17,6 +18,7 @@
         {
         }
 
+        //
         // GET: User/Home/Index
         [HttpGet]
         public ActionResult Index(int? categoryId, int? townId)
@@ -40,7 +42,9 @@
 
                 if (categoryId != null)
                 {
-                    query = query.Where(u => u.Skills.Select(s => s.Skill.CategoryId).Contains(categoryId.Value));
+                    query = query
+                        .Where(u => u.Skills.Select(s => s.Skill.CategoryId)
+                        .Contains(categoryId.Value));
                 }
 
                 if (townId != null)
@@ -50,16 +54,7 @@
             }
 
             var users = query
-                .Select(u => new UserProfileSummaryViewModel
-                {
-                    Username = u.UserName,
-                    Offering = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserSkillViewModel { Id = s.SkillId, Name = s.Skill.Name }),
-                    Seeking = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSkillViewModel { Id = s.Id, Name = s.Skill.Name })
-                })
+                .Select(UserProfileSummaryViewModel.ViewModel)
                 .ToList();
 
             var viewModel = new HomeIndexPageViewModel
@@ -72,7 +67,8 @@
             return this.View(viewModel);
         }
 
-        [Authorize]
+        //
+        // POST: User/Home/Search
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Search(string searchSkill)
@@ -82,16 +78,7 @@
                 var users = this.Data.Users
                 .All()
                 .Where(u => u.Skills.Select(s => s.Skill.Name).Contains(searchSkill))
-                .Select(u => new UserProfileSummaryViewModel
-                {
-                    Username = u.UserName,
-                    Offering = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserSkillViewModel { Id = s.SkillId, Name = s.Skill.Name }),
-                    Seeking = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSkillViewModel { Id = s.Id, Name = s.Skill.Name })
-                })
+                .Select(UserProfileSummaryViewModel.ViewModel)
                 .ToList();
 
                 TempData["searchSkill"] = searchSkill;
@@ -110,13 +97,29 @@
             }
         }
 
+        //
+        // GET: User/Home/Error
+        [HttpGet]
+        public ActionResult Error()
+        {
+            if (TempData["message"] != null)
+            {
+                var message = (NotificationMessage)TempData["message"];
+
+                return this.View(message);
+            }
+
+            return this.RedirectToAction("Index", "Home", new { area = "User" });
+        }
+
+        #region Actions for partial views rendering
         [ChildActionOnly]
         public PartialViewResult Categories(int? categoryId)
         {
             var userSkillsInCategory = this.Data.UserSkills
                 .All()
                 .Include(us => us.Skill)
-                .Select(us => new {us.Skill.CategoryId, us.SkillId})
+                .Select(us => new { us.Skill.CategoryId, us.SkillId })
                 .GroupBy(us => us.CategoryId)
                 .ToDictionary(g => g.Key, g => g.Distinct().Count());
 
@@ -169,19 +172,6 @@
 
             return this.PartialView("_Towns", viewModel);
         }
-
-        [HttpGet]
-        public ActionResult Error()
-        {
-           
-            if (TempData["message"] != null)
-            {
-                var message = (NotificationMessage)TempData["message"];
-
-                return this.View(message);
-            }
-
-            return this.RedirectToAction("Index", "Home", new { area = "User" });
-        }
+        #endregion
     }
 }

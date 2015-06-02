@@ -2,18 +2,20 @@
 {
     using System.Linq;
     using System.Web.Mvc;
+
+    using Web.Controllers;
     using Data.Data;
     using Models;
-    using Web.Controllers;
+
 
     public class NotificationsController : BaseController
     {
         public NotificationsController(ISkillExchangeData data)
             : base(data)
-        {
-            
+        {       
         }
 
+        //
         // GET: User/Notifications/Index
         [Authorize]
         [HttpGet]
@@ -22,13 +24,7 @@
             var notifications = this.Data.Notifications
                 .All()
                 .Where(n => n.Reciever.Id == this.UserProfile.Id)
-                .Select(n => new NotificationViewModel
-                {
-                    Id = n.Id,
-                    Content = n.Content,
-                    IsRead = n.IsRead,
-                    Date = n.Date
-                })
+                .Select(NotificationViewModel.ViewModel)
                 .OrderByDescending(n => n.Date);
 
             return this.View(notifications);

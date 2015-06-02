@@ -4,13 +4,15 @@
     using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
+
+    using Web.Controllers;
     using Common;
     using Data.Data;
-    using EntityFramework.Extensions;
     using Models;
     using SkillExchange.Models;
-    using Web.Controllers;
+
     using WebGrease.Css.Extensions;
+    using EntityFramework.Extensions;
 
     public class ProfileController : BaseController
     {
@@ -19,6 +21,7 @@
         {
         }
 
+        //
         // GET: User/Profile/Index
         [Authorize]
         [HttpGet]
@@ -27,40 +30,13 @@
             var userProfile = this.Data.Users
                 .All()
                 .Where(u => u.Id == this.UserProfile.Id)
-                .Select(u => new ProfileModel
-                {
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Username = u.LastName,
-                    Email = u.Email,
-                    Town = u.Town.Name,
-                    Description = u.Description,
-                    OfferingSkills = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserSkillViewModel
-                        {
-                            Id = s.Id,
-                            Name = s.Skill.Name,
-                            CategoryId = s.Skill.CategoryId,
-                            CategoryName = s.Skill.Category.Name
-                        })
-                        .ToList(),
-                    SeekingSkills = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSkillViewModel
-                        {
-                            Id = s.Id,
-                            Name = s.Skill.Name,
-                            CategoryId = s.Skill.CategoryId,
-                            CategoryName = s.Skill.Category.Name
-                        })
-                        .ToList()
-                })
+                .Select(ProfileModel.ViewModel)
                 .First();
 
             return this.View(userProfile);
         }
 
+        //
         // GET: User/Profile/Edit
         [Authorize]
         [HttpGet]
@@ -69,38 +45,7 @@
             var userProfile = this.Data.Users
                 .All()
                 .Where(u => u.Id == this.UserProfile.Id)
-                .Select(u => new ProfileModel
-                {
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Username = u.UserName,
-                    Email = u.Email,
-                    TownId = u.TownId.Value,
-                    Town = u.Town.Name,
-                    Description = u.Description,
-                    OfferingSkills = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new UserSkillViewModel
-                        {
-                            Id = s.Id,
-                            Name = s.Skill.Name,
-                            CategoryId = s.Skill.CategoryId,
-                            CategoryName = s.Skill.Category.Name,
-                            State = UserSkillState.Existing
-                        })
-                        .ToList(),
-                    SeekingSkills = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSkillViewModel
-                        {
-                            Id = s.Id,
-                            Name = s.Skill.Name,
-                            CategoryId = s.Skill.CategoryId,
-                            CategoryName = s.Skill.Category.Name,
-                            State = UserSkillState.Existing
-                        })
-                        .ToList()
-                })
+                .Select(ProfileModel.ViewModel)
                 .First();
 
             Session["maxIndexOfferingSkillsList"] = userProfile.OfferingSkills.Count - 1;
@@ -110,6 +55,8 @@
             return this.View(userProfile);
         }
 
+        //
+        // POST: User/Profile/Edit
         [Authorize]
         [HttpPost]
         public ActionResult Edit(ProfileModel model)
@@ -270,6 +217,7 @@
             return this.RedirectToAction("Index", "Profile");
         }
 
+        //
         // GET: User/Profile/Show
         [Authorize]
         [HttpGet]
@@ -292,36 +240,16 @@
                 .All()
                 .Include(u => u.Town)
                 .Where(u => u.UserName == username)
-                .Select(u => new UserProfileFullViewModel
-                {
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Username = u.UserName,
-                    Town = u.Town.Name,
-                    Email = u.Email,
-                    Description = u.Description,
-                    Offering = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Offering")
-                        .Select(s => new OfferingSkillViewModel
-                        {
-                            Id = s.Id,
-                            SkillId = s.SkillId,
-                            Name = s.Skill.Name,
-                            CanBeApprovedByCurrentUserLogged = !approvedSkillsByCurrentUserLogged.Contains(s.Id)
-                        }),
-                    Seeking = u.Skills
-                        .Where(s => s.ExchangeType.Name == "Seeking")
-                        .Select(s => new UserSkillViewModel
-                        {
-                            Id = s.Id,
-                            Name = s.Skill.Name
-                        })
-                })
+                .Select(UserProfileFullViewModel.ViewModel)
                 .FirstOrDefault();
 
             if (userProfile != null)
             {
-                userProfile.Offering.ForEach(s => s.ApproversCount =
+                userProfile.Offering
+                    .ForEach(s => s.CanBeApprovedByCurrentUserLogged =
+                        !approvedSkillsByCurrentUserLogged.Contains(s.Id));
+                userProfile.Offering
+                    .ForEach(s => s.ApproversCount =
                 this.Data.Approvers.All().Count(a => a.UserSkillId == s.Id));
 
                 viewModel.UserProfile = userProfile;
@@ -439,6 +367,7 @@
             }
         }
 
+        #region Data loading actions
         public ActionResult GetTowns()
         {
             var towns = this.Data.Towns.All()
@@ -474,7 +403,9 @@
 
             return this.Json(skills.AsQueryable(), JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
+        #region Actions for partial views rendering
         public ActionResult MessageForm(string recieverUsername)
         {
             var reciever = this.Data.Users.All().FirstOrDefault(u => u.UserName == recieverUsername);
@@ -497,7 +428,6 @@
             return this.RedirectToAction("Error", "Home");
         }
 
-        [HttpPost]
         public ActionResult SkillEditor(string exchangeType)
         {
             var model = new SkillEditorModel();
@@ -530,5 +460,6 @@
             model.Categories = categories;
             return this.PartialView("_SkillEditor", model);
         }
+        #endregion
     }
 }
