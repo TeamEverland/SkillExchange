@@ -1,0 +1,42 @@
+﻿@model SkillExchange.Web.Areas.User.Models.UserProfileSummaryViewModel
+
+<div class="panel panel-warning user-summary-profile">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">
+            @Html.ActionLink(
+                Model.Username,
+                "Show",
+                new
+                {
+                    area = "User", controller = "Profile", username = Model.Username
+                })
+        </h3>
+    </div>
+    <div class="panel-body">
+        @if (Model.Offering.Any() || Model.Seeking.Any())
+        {
+            if (Model.Offering.Any())
+            {
+                <span class="text-primary">Offering: </span>
+                foreach (var skill in Model.Offering)
+                {
+                    <span><a>@skill.Name</a></span>
+                }
+            }
+
+            if (Model.Seeking.Any())
+            {
+                <span class="text-primary">Seeking: </span>
+                foreach (var skill in Model.Seeking)
+                {
+                    <span><a>@skill.Name</a></span>
+                }
+            }
+        }
+        else
+        {
+            <div class="text-center text-muted">No information for skills yet</div>
+        }
+    </div>
+</div>
+

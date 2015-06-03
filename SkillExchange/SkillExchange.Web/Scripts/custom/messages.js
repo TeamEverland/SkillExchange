@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
     var $conversationField = $('#conversation');
     var $conversationsSummariesField = $('#conversations');
+    var $loadingImage = $('#loading-image');
+    $loadingImage.hide();
 
     // Register messages client functions
     $.connection.messagesHub.client.estimateMessagesCount = function () {
@@ -45,6 +47,7 @@
     };
 
     $conversationsSummariesField.on('click', '.conversation-summary', function () {
+        $loadingImage.show();
         var interlocutor = $(this).text().trim();
         $(this).removeClass('active');
 
@@ -53,6 +56,7 @@
             method: 'POST',
             data: { interlocutorName: interlocutor }
         }).success(function (data) {
+            $loadingImage.hide();
             $conversationField.html(data);
             var conversationFieldHeight = $conversationField[0]['scrollHeight'];
             $conversationField.animate({ scrollTop:  conversationFieldHeight}, 1000);
