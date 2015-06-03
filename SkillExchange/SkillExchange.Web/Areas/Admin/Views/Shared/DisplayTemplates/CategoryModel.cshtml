@@ -1,0 +1,53 @@
+﻿@model SkillExchange.Web.Areas.Admin.Models.CategoryModel
+
+<div id="@Model.Name.Replace(" ", "")" class="text-center clearfix">
+    <div>@Model.Name</div>
+    <div class="col-lg-12">
+        @using (Ajax.BeginForm(
+        "GetCategoryEditForm",
+        new
+        {
+            controller = "Categories",
+            area = "Admin"
+        },
+        new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = Model.Name.Replace(" ", ""),
+            InsertionMode = InsertionMode.ReplaceWith
+        },
+        new
+        {
+            @class = "admin-form"
+        }))
+        {
+            @Html.HiddenFor(model => model.Id)
+            <button type="submit" class="btn btn-primary">Edit</button>
+        }
+
+        @using (Ajax.BeginForm(
+        "Delete",
+        new
+        {
+            controller = "Categories",
+            area = "Admin"
+        },
+        new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = Model.Name,
+            InsertionMode = InsertionMode.Replace
+        },
+        new
+        {
+            @class = "admin-form"
+        }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            <button type="submit" class="btn btn-danger">Delete</button>
+        }
+    </div>
+</div>
+
+

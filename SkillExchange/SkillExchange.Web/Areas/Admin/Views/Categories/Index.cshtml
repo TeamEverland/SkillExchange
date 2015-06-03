@@ -1,0 +1,25 @@
+﻿@using System.Collections
+@using WebGrease.Css.Extensions
+@model IEnumerable<SkillExchange.Web.Areas.Admin.Models.CategoryModel>
+
+<main class="col-lg-6 col-lg-offset-3">
+    @if (Model.Any())
+    {
+        foreach (var category in Model)
+        {
+            <div class="well clearfix">@Html.DisplayFor(u => category)</div>
+        }
+    }
+    else
+    {
+        <div class="text-center, text-danger">
+            <h1>No categories yet</h1>
+        </div>
+    }
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+}
+
+

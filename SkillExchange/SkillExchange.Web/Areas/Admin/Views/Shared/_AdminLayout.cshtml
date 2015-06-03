@@ -24,8 +24,27 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", new { area = "Admin", controller = "Home" })</li>
-                    <li>@Html.ActionLink("Categories", "Categories", new { area = "Admin", controller = "Home" })</li>
-                    <li>@Html.ActionLink("Towns", "Towns", new { area = "Admin", controller = "Home" })</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Categories <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="download">
+                            <li>@Html.ActionLink("All", "Index", new { area = "Admin", controller = "Categories" })</li>
+                            <li>@Html.ActionLink("New", "New", new { area = "Admin", controller = "Categories" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Towns <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="download">
+                            <li>@Html.ActionLink("All", "Index", new {area = "Admin", controller = "Towns"})</li>
+                            <li>@Html.ActionLink("New", "New", new {area = "Admin", controller = "Towns"})</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Skills <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="download">
+                            <li>@Html.ActionLink("All", "Index", new { area = "Admin", controller = "Skills" })</li>
+                            <li>@Html.ActionLink("New", "New", new { area = "Admin", controller = "Skills" })</li>
+                        </ul>
+                    </li>
                 </ul>
                 
                 @Html.Partial("_LoginPartial")

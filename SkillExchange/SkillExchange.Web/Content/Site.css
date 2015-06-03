@@ -94,3 +94,13 @@ textarea {
     padding: 1%
 }
 /*User area css*/
+
+/*Admin area css*/
+.admin-form {
+    display: inline;
+}
+
+.admin-form button {
+    width: 70px;
+}
+/*Admin area css*/

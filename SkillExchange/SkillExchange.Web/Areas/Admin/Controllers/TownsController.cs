@@ -1,21 +1,18 @@
 ﻿namespace SkillExchange.Web.Areas.Admin.Controllers
 {
     using System.Web.Mvc;
-
     using Data.Data;
     using Web.Controllers;
 
-    [Authorize(Roles = "Administrator")]
-    public class HomeController : BaseController
+    public class TownsController : BaseController
     {
-        public HomeController(ISkillExchangeData data)
-            : base(data)
+        public TownsController(ISkillExchangeData data)
+            :base(data)
         {
         }
 
         //
-        // GET: Admin/Home/Index
-        [HttpGet]
+        // GET: Admin/Towns/Index
         public ActionResult Index()
         {
             return this.View();
