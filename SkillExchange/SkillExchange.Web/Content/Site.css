@@ -76,6 +76,11 @@ textarea {
     margin-top: 2%
 }
 
+.conversation {
+    max-height: 450px;
+    overflow: auto;
+}
+
 .conversation-summary:hover {
     cursor: pointer;
     opacity: 0.9;

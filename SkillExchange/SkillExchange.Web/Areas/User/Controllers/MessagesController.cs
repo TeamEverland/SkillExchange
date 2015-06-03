@@ -10,7 +10,6 @@
     using Models;
 
     using Microsoft.AspNet.SignalR;
-    using WebGrease.Css.Extensions;
 
     public class MessagesController : BaseController
     {
@@ -32,15 +31,13 @@
         [System.Web.Mvc.Authorize]
         public ActionResult Send(MessageInputModel message)
         {
+            Message newMessage = new Message();
             if (ModelState.IsValid)
             {
-                this.Data.Messages.Add(
-                new Message
-                {
-                    RecieverId = message.RecieverId,
-                    SenderId = this.UserProfile.Id,
-                    Content = message.Content
-                });
+                newMessage.RecieverId = message.RecieverId;
+                newMessage.SenderId = this.UserProfile.Id;
+                newMessage.Content = message.Content;
+                this.Data.Messages.Add(newMessage);
 
                 this.Data.SaveChanges();
             }
@@ -48,6 +45,7 @@
             var reciever = this.Data.Users.All().First(u => u.Id == message.RecieverId).UserName;
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MessagesHub>();
             hubContext.Clients.All.estimateMessagesCountForClient(reciever);
+            hubContext.Clients.All.findMessageRecieverClients(reciever, newMessage.Id);
 
             return this.RedirectToAction("Index", "Messages", new { area = "User" });
         }
@@ -99,7 +97,7 @@
                     conversation.Sender.UserName = conversation.Reciever.UserName;
                 }
             }
-                
+
             var conversationsResult = conversations.GroupBy(m => m.Sender.UserName)
             .Select(m => new ConversationSummaryViewModel
             {
@@ -146,11 +144,32 @@
                     Type = NotificationMessageType.Error
                 };
 
-                return this.RedirectToAction("Error", "Home", new {area = "User"});
-            } 
+                return this.RedirectToAction("Error", "Home", new { area = "User" });
+            }
         }
 
-        public ActionResult GetMessage(int messageId)
+        public ActionResult GetConversationSummary(string interlocutor)
+        {
+            var conversation = this.Data.Messages
+                .All()
+                .FirstOrDefault(m => m.Sender.UserName == interlocutor && m.RecieverId == this.UserProfile.Id);
+            if (conversation != null)
+            {
+                var conversationSummary = new ConversationSummaryViewModel
+                {
+                    InterlocutorName = conversation.Sender.UserName,
+                    HasNewMessages = true
+                };
+
+                return this.PartialView("_ConversationSummary", conversationSummary);
+            }
+            else
+            {
+                return this.Content("");
+            }
+        }
+
+        public PartialViewResult GetMessage(int messageId)
         {
             var message = this.Data
                 .Messages
@@ -164,15 +183,6 @@
                     Content = m.Content
                 })
                 .First();
-
-            //var messageView = this.PartialView("_Message", message);
-            //var interlocutorName = message.SenderName;
-
-            //var returnData = new MessageOutputModel
-            //{
-            //    InterinterlocutorName = interlocutorName,
-            //    MessageView = messageView
-            //};
 
             return this.PartialView("_Message", message);
         }

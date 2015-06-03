@@ -3,10 +3,11 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using Ninject.Selection;
 
     public class MessagesHub : BaseHub
     {
-        private static HashSet<int> MessagesApended = new HashSet<int>();
+        private static HashSet<int> MessagesAppended = new HashSet<int>();
  
         public void EstimateMessagesCount()
         {
@@ -16,11 +17,14 @@
                 var userConnections = usersConnections.GetConnections(username);
                 foreach (var connection in userConnections)
                 {
-                    var messagesCount = data.Messages
+                    var senders = data.Messages
                         .All()
                         .Include(n => n.Reciever)
-                        .Count(m => m.Reciever.UserName == username && m.IsRead == false);
+                        .Where(m => m.Reciever.UserName == username && m.IsRead == false)
+                        .GroupBy(m => m.SenderId)
+                        .Select(m => m.Key);
 
+                    var messagesCount = senders.Count();
                     Clients.Client(connection).appendMessagesCount(messagesCount);
                 }
             }
@@ -31,10 +35,14 @@
             var userConnections = usersConnections.GetConnections(client);
             foreach (var connection in userConnections)
             {
-                var messagesCount = data.Messages
+                var senders = data.Messages
                         .All()
                         .Include(n => n.Reciever)
-                        .Count(m => m.Reciever.UserName == client && m.IsRead == false);
+                        .Where(m => m.Reciever.UserName == client && m.IsRead == false)
+                        .GroupBy(m => m.SenderId)
+                        .Select(m => m.Key);
+
+                var messagesCount = senders.Count();
 
                 Clients.Client(connection).appendMessagesCount(messagesCount);
             }
@@ -61,15 +69,18 @@
 
         public void FindMessageRecieverClients(string reciever, int messageId)
         {
-            if (!MessagesApended.Contains(messageId))
+            var sender = this.data.Messages.Find(messageId).Sender.UserName;
+
+            if (!MessagesAppended.Contains(messageId))
             {
                 var userConnections = usersConnections.GetConnections(reciever);
                 foreach (var connection in userConnections)
                 {
                     Clients.Client(connection).appendNewMessage(messageId);
+                    Clients.Client(connection).appendConversationSummary(sender);
                 }
 
-                MessagesApended.Add(messageId);
+                MessagesAppended.Add(messageId);
             }
         }
     }

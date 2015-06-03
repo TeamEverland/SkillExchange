@@ -273,6 +273,7 @@
     <Content Include="Areas\User\Views\Home\Search.cshtml" />
     <Content Include="Areas\User\Views\Shared\DisplayTemplates\ConversationSummaryViewModel.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Message.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_ConversationSummary.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\add-skill-editor.js" />
     <Content Include="Scripts\custom\autocomplete.js" />
