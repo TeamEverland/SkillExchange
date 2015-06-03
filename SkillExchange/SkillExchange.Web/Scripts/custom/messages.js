@@ -15,14 +15,17 @@
         notifier.server.findMessageRecieverClients(reciever, messageId);
     };
 
-    $.connection.messagesHub.client.appendNewMessage = function (messageId) {
+    $.connection.messagesHub.client.appendNewMessage = function (messageId, sender) {
         $.ajax({
             url: '/User/Messages/GetMessage',
             method: 'POST',
             data: { messageId: messageId }
         }).success(function (data) {
-            var $conversationMessages = $conversationField.find('#conversation-messages');
-            $conversationMessages.append(data);
+            var conversationWithSenderField = $('#conversation-with-' + sender);
+            if (conversationWithSenderField.length > 0) {
+                var $conversationMessages = $conversationField.find('#conversation-messages');
+                $conversationMessages.append(data);
+            }
         });
     };
 

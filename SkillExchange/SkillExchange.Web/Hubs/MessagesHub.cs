@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
-    using Ninject.Selection;
 
     public class MessagesHub : BaseHub
     {
@@ -76,7 +75,7 @@
                 var userConnections = usersConnections.GetConnections(reciever);
                 foreach (var connection in userConnections)
                 {
-                    Clients.Client(connection).appendNewMessage(messageId);
+                    Clients.Client(connection).appendNewMessage(messageId, sender);
                     Clients.Client(connection).appendConversationSummary(sender);
                 }
 

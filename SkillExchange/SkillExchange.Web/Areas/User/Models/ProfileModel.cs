@@ -42,6 +42,7 @@
                     LastName = e.LastName,
                     Username = e.LastName,
                     Email = e.Email,
+                    TownId = e.TownId,
                     Town = e.Town.Name,
                     Description = e.Description,
                     OfferingSkills = e.Skills

@@ -75,6 +75,7 @@
                 profileToBeEdited.Email = model.Email;
                 profileToBeEdited.TownId = model.TownId;
                 profileToBeEdited.Description = model.Description;
+                this.Data.SaveChanges();
                 #endregion
 
                 #region Skills edit
@@ -89,7 +90,7 @@
                             this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
                         }
 
-                        if (skill.State == UserSkillState.New)
+                        if (skill.State == UserSkillState.New && !string.IsNullOrEmpty(skill.Name))
                         {
                             bool userHasTheSkill = this.Data.UserSkills
                                 .All().Any(s => s.Skill.Name == skill.Name && s.UserId == this.UserProfile.Id);
@@ -131,7 +132,7 @@
                             }
                         }
 
-                        if (skill.State == UserSkillState.Existing)
+                        if (skill.State == UserSkillState.Existing && !string.IsNullOrEmpty(skill.Name))
                         {
                             var userSkill = this.Data.UserSkills.All().First(s => s.Id == skill.Id).Skill;
                             userSkill.CategoryId = skill.CategoryId;
@@ -154,7 +155,7 @@
                             this.Data.UserSkills.All().Where(s => s.Id == skill.Id).Delete();
                         }
 
-                        if (skill.State == UserSkillState.New)
+                        if (skill.State == UserSkillState.New && !string.IsNullOrEmpty(skill.Name))
                         {
                             bool userHasTheSkill = this.Data.UserSkills
                                 .All().Any(s => s.Skill.Name == skill.Name && s.UserId == this.UserProfile.Id);
@@ -196,7 +197,7 @@
                             }
                         }
 
-                        if (skill.State == UserSkillState.Existing)
+                        if (skill.State == UserSkillState.Existing && !string.IsNullOrEmpty(skill.Name))
                         {
                             var userSkill = this.Data.UserSkills.All().First(s => s.Id == skill.Id).Skill;
                             userSkill.CategoryId = skill.CategoryId;
