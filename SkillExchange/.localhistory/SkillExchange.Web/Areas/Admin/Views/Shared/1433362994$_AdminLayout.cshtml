@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillExchange</title>
+    @Styles.Render("~/Content/css")
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>admin
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Skill Exchange", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", new { area = "User", controller = "Home" })</li>
+                    <li>
+                        <a href="@Url.Action(
+                            "Index",
+                            new { area = "User", controller = "Messages" }) ">
+                            Messages <span class="badge" id="messages-count"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action(
+                            "Index",
+                            new { area = "User", controller = "Notifications" }) ">
+                            Notifications <span class=" badge" id="notifications-count"></span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Profile <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="download">
+                            <li>@Html.ActionLink("Profile", "Index", new { area = "User", controller = "Profile" })</li>
+                            <li>@Html.ActionLink("Edit", "Edit", new { area = "User", controller = "Profile" })</li>
+                        </ul>
+                    </li>
+                </ul>
+                @using (Html.BeginForm(
+                    "Search",
+                    "Home",
+                    new { area = "User" },
+                    FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <input type="text" name="searchSkill" id="search-skills" class="form-control" placeholder="Search for skills">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                }
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
