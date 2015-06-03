@@ -1,11 +1,13 @@
 ﻿namespace SkillExchange.Web.Hubs
 {
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
-    using Microsoft.Ajax.Utilities;
 
     public class MessagesHub : BaseHub
     {
+        private static HashSet<int> MessagesApended = new HashSet<int>();
+ 
         public void EstimateMessagesCount()
         {
             var usernames = usersConnections.GetUsernames();
@@ -55,6 +57,20 @@
             this.data.SaveChanges();
 
             this.EstimateMessagesCountForClient(username);
+        }
+
+        public void FindMessageRecieverClients(string reciever, int messageId)
+        {
+            if (!MessagesApended.Contains(messageId))
+            {
+                var userConnections = usersConnections.GetConnections(reciever);
+                foreach (var connection in userConnections)
+                {
+                    Clients.Client(connection).appendNewMessage(messageId);
+                }
+
+                MessagesApended.Add(messageId);
+            }
         }
     }
 }

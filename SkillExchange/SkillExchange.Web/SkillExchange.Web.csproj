@@ -196,6 +196,7 @@
     <Compile Include="Areas\User\Models\EditProfileViewModel.cs" />
     <Compile Include="Areas\User\Models\HomeIndexPageViewModel.cs" />
     <Compile Include="Areas\User\Models\MessageInputModel.cs" />
+    <Compile Include="Areas\User\Models\MessageOutputModel.cs" />
     <Compile Include="Areas\User\Models\MessageViewModel.cs" />
     <Compile Include="Areas\User\Models\NotificationMessageType.cs" />
     <Compile Include="Areas\User\Models\NotificationViewModel.cs" />

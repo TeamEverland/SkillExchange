@@ -2,14 +2,15 @@
 {
     using System.Linq;
     using System.Web.Mvc;
-    using System.Web.Routing;
+
+    using Web.Controllers;
     using Data.Data;
     using Hubs;
-    using Microsoft.AspNet.SignalR;
-    using Models;
     using SkillExchange.Models;
-    using Web.Controllers;
+    using Models;
 
+    using Microsoft.AspNet.SignalR;
+    
     public class MessagesController : BaseController
     {
         public MessagesController(ISkillExchangeData data)
@@ -77,6 +78,7 @@
             var reciever = this.Data.Users.Find(message.RecieverId);
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MessagesHub>();
             hubContext.Clients.All.estimateMessagesCountForClient(reciever.UserName);
+            hubContext.Clients.All.findMessageRecieverClients(reciever.UserName, newMessage.Id);
 
             return this.PartialView("_Message", messageSent);
         }
@@ -135,6 +137,33 @@
 
                 return this.RedirectToAction("Error", "Home", new {area = "User"});
             } 
+        }
+
+        public ActionResult GetMessage(int messageId)
+        {
+            var message = this.Data
+                .Messages
+                .All()
+                .Where(m => m.Id == messageId)
+                .Select(m => new MessageViewModel
+                {
+                    Date = m.Date,
+                    SenderId = m.SenderId,
+                    SenderName = m.Sender.UserName,
+                    Content = m.Content
+                })
+                .First();
+
+            //var messageView = this.PartialView("_Message", message);
+            //var interlocutorName = message.SenderName;
+
+            //var returnData = new MessageOutputModel
+            //{
+            //    InterinterlocutorName = interlocutorName,
+            //    MessageView = messageView
+            //};
+
+            return this.PartialView("_Message", message);
         }
     }
 }
