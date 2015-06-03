@@ -25,32 +25,25 @@
         {
             IQueryable<User> query;
 
-            if (categoryId == null && townId == null)
-            {
-                var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
-                var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
+            var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
+            var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
 
-                query = this.Data.Users
+            query = this.Data.Users
                     .All()
                     .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId) &&
                     u.Id != this.UserProfile.Id);
-            }
-            else
+
+
+            if (categoryId != null)
             {
-                query = this.Data.Users
-                    .All();
+                query = query
+                    .Where(u => u.Skills.Select(s => s.Skill.CategoryId)
+                    .Contains(categoryId.Value));
+            }
 
-                if (categoryId != null)
-                {
-                    query = query
-                        .Where(u => u.Skills.Select(s => s.Skill.CategoryId)
-                        .Contains(categoryId.Value));
-                }
-
-                if (townId != null)
-                {
-                    query = query.Where(u => u.TownId == townId);
-                }
+            if (townId != null)
+            {
+                query = query.Where(u => u.TownId == townId);
             }
 
             var users = query

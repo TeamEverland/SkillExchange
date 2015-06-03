@@ -10,7 +10,8 @@
 
     public class HomeController : BaseController
     {
-        public HomeController(ISkillExchangeData data) : base(data)
+        public HomeController(ISkillExchangeData data)
+            : base(data)
         {
         }
 
@@ -33,31 +34,24 @@
 
             IQueryable<User> query;
 
-            if (categoryId == null && townId == null)
-            {
-                var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
-                var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
+            var adminRole = this.Data.Roles.All().FirstOrDefault(r => r.Name == "Administrator");
+            var adminRoleId = adminRole != null ? adminRole.Id : string.Empty;
 
-                query = this.Data.Users
-                    .All()
-                    .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId));
+            query = this.Data.Users
+                .All()
+                .Where(u => !u.Roles.Select(r => r.RoleId).Contains(adminRoleId));
+
+
+            if (categoryId != null)
+            {
+                query = query
+                    .Where(u => u.Skills.Select(s => s.Skill.CategoryId)
+                    .Contains(categoryId.Value));
             }
-            else
+
+            if (townId != null)
             {
-                query = this.Data.Users
-                    .All();
-
-                if (categoryId != null)
-                {
-                    query = query
-                        .Where(u => u.Skills.Select(s => s.Skill.CategoryId)
-                        .Contains(categoryId.Value));
-                }
-
-                if (townId != null)
-                {
-                    query = query.Where(u => u.TownId == townId);
-                }
+                query = query.Where(u => u.TownId == townId);
             }
 
             var users = query
