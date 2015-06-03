@@ -10,7 +10,8 @@
     using Models;
 
     using Microsoft.AspNet.SignalR;
-    
+    using WebGrease.Css.Extensions;
+
     public class MessagesController : BaseController
     {
         public MessagesController(ISkillExchangeData data)
@@ -88,16 +89,26 @@
         {
             var conversations = this.Data.Messages
                 .All()
-                .Where(m => m.RecieverId == this.UserProfile.Id)
+                .Where(m => m.RecieverId == this.UserProfile.Id || m.SenderId == this.UserProfile.Id)
                 .OrderByDescending(m => m.Date)
-                .GroupBy(m => m.Sender.UserName)
-                .Select(m => new ConversationSummaryViewModel
+                .ToList();
+            foreach (var conversation in conversations)
+            {
+                if (conversation.Sender.UserName == this.UserProfile.UserName)
                 {
-                    InterlocutorName = m.Key,
-                    HasNewMessages = m.Any(x => !x.IsRead)
-                });
+                    conversation.Sender.UserName = conversation.Reciever.UserName;
+                }
+            }
+                
+            var conversationsResult = conversations.GroupBy(m => m.Sender.UserName)
+            .Select(m => new ConversationSummaryViewModel
+            {
+                InterlocutorName = m.Key,
+                HasNewMessages = m.Any(x => !x.IsRead)
+            })
+            .ToList();
 
-            return this.PartialView("_Conversations", conversations);
+            return this.PartialView("_Conversations", conversationsResult);
         }
 
         public ActionResult Conversation(string interlocutorName)
