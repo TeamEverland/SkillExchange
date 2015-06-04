@@ -22,7 +22,7 @@
         @Html.AntiForgeryToken()
         <fieldset class="col-lg-6 col-lg-offset-3">
             @Html.HiddenFor(model => model.Id)
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control text-center" })
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1 text-center send-message-btn">
                     <button type="submit" class="btn btn-success">Edit</button>
